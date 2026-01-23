@@ -137,7 +137,7 @@ git commit -m "Add your feature description here"
 
 ---
 
-## 5. Sharing Your Work
+## 5. Sharing Your Work 9 ( opsional )
 
 Push your branch to GitHub:
 
