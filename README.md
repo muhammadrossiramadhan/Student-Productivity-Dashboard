@@ -10,7 +10,7 @@ A sleek, lightweight web application designed to help students manage tasks, sta
 
 A simple web project for task reminders styled like an LMS web app or desktop application. Customize the appearance/style as you like—build on your own branch via fork or clone.
 
-> **IMPORTANT**
+> [!IMPORTANT]
 > New to GitHub? Please follow this beginner-friendly guide in exact sequence for any OS.
 
 ---
@@ -86,7 +86,7 @@ git clone https://github.com/YOUR-USERNAME/Student-Productivity-Dashboard.git
 cd Student-Productivity-Dashboard
 ```
 
-> **NOTE**
+> [!NOTE]
 > VS Code users can open the project instantly:
 
 ```bash
@@ -132,7 +132,7 @@ git add .
 git commit -m "Add your feature description here"
 ```
 
-> **WARNING**
+> [!WARNING]
 > Use clear, descriptive commit messages and always test before committing.
 
 ---
