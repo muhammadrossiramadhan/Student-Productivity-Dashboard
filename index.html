@@ -15,6 +15,24 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   <script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <script>
+    const options = {
+      series: [{
+        name: 'Hours Studied',
+        data: [8, 10, 12, 9, 14, 11, 13]  // Customize with your data
+      }],
+      chart: { type: 'bar', height: 250, toolbar: { show: false } },
+      plotOptions: { bar: { borderRadius: 6, horizontal: false, columnWidth: '70%' } },
+      colors: ['#EC4899'],  // Pink theme
+      xaxis: { categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] },
+      yaxis: { title: { text: 'Hours' } },
+      dataLabels: { enabled: false },
+      grid: { borderColor: '#f1f5f9' }
+    };
+    const chart = new ApexCharts(document.querySelector("#productivity-chart"), options);
+    chart.render();
+  </script>
 
     </head>
 
@@ -120,7 +138,32 @@
       </div>
 
       <div  class="border-4 border-pink-500 basis-1/3  justify-items-center w-fit m-8  grid grid-rows-auto gap-x-auto gap-y-6 p-10">
-        Analitik
+        <div class="border-4 border-pink-500 basis-1/3 justify-items-center w-fit m-8 grid grid-rows-auto gap-4 p-6 bg-white/50 rounded-lg shadow-lg">
+        <h3 class="text-xl font-bold text-pink-700 text-center mb-4">Analitik Produktivitas</h3>
+  
+        <!-- Key Metrics -->
+        <div class="grid grid-cols-3 gap-4 mb-6">
+          <div class="text-center p-3 bg-pink-100 rounded-lg">
+            <div class="text-2xl font-bold text-pink-600">85%</div>
+            <div class="text-sm text-gray-600">Task Completion</div>
+          </div>
+          <div class="text-center p-3 bg-green-100 rounded-lg">
+            <div class="text-2xl font-bold text-green-600">12h</div>
+            <div class="text-sm text-gray-600">Study Hours/Week</div>
+          </div>
+          <div class="text-center p-3 bg-blue-100 rounded-lg">
+            <div class="text-2xl font-bold text-blue-600">3.8</div>
+            <div class="text-sm text-gray-600">Avg Grade (GPA)</div>
+          </div>
+        </div>
+
+        <!-- Bar Chart for Weekly Productivity -->
+        <div id="productivity-chart" class="h-64 bg-gray-50 rounded-lg p-4"></div>
+
+        <!-- Add ApexCharts CDN before </body> if not present -->
+        <!-- <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script> -->
+      </div>
+
       </div>
 
       <div  class="border-4 border-pink-500 basis-1/6 justify-items-center w-fit m-8  grid grid-rows-auto gap-x-auto gap-y-6 p-10">
@@ -134,6 +177,7 @@
     </div>
 
   </div>
+
 
 </body>
 
