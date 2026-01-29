@@ -1,6 +1,6 @@
 # 🎓 Student Productivity Dashboard
 
-A sleek, lightweight web application designed to help students manage tasks, stay focused, and organize their academic life. Styled with a modern **LMS (Learning Management System)** aesthetic, this dashboard is built for simplicity and customization.
+A sleek, lightweight web application designed to help students manage tasks, stay focused, and organize their academic life. Styled with a modern **LMS (Learning Management System)** aesthetic, this dashboard is built for simplicity and customization XD.
 
 ---
 
