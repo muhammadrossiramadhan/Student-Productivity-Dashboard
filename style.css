@@ -1,0 +1,316 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #4facfe;
+    color: white;
+    text-align: center;
+}
+
+.container {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 30px;
+    border-radius: 15px;
+    width: 350px;
+}
+
+.page { display: none; }
+.active { display: block; }
+
+button {
+    background-color: #00f2fe;
+    color: #333;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    width: 100%;
+    margin: 5px 0;
+    font-weight: bold;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: none;
+    box-sizing: border-box;
+}
+
+/* Container Garis Loading */
+.progress-container {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    height: 10px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+/* Garis yang bergerak di tengah */
+.progress-bar {
+    width: 40%;
+    height: 100%;
+    background-color: #ffffff;
+    border-radius: 10px;
+    animation: loadingAnim 1.5s infinite ease-in-out;
+}
+
+@keyframes loadingAnim {
+    0% { transform: translateX(-100%); }
+    50% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
+
+.option-btn {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid white;
+    margin-bottom: 15px;
+}
+
+.list-container {
+    margin: 20px 0;
+    text-align: left;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 10px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.item-list {
+    background: white;
+    color: #333;
+    padding: 8px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.small-btn {
+    background-color: transparent;
+    border: 1px solid white;
+    font-size: 0.8rem;
+    margin-top: 20px;
+}
+
+/* Gaya untuk garis loading */
+.progress-container {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    height: 12px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    width: 50%;
+    height: 100%;
+    background-color: #ffffff;
+    animation: loadingAnim 2s infinite ease-in-out;
+}
+
+@keyframes loadingAnim {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(200%); }
+}
+
+.divider {
+    margin: 15px 0;
+    font-size: 0.8rem;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.divider::before, .divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.3);
+    margin: 0 10px;
+}
+
+.google-btn {
+    background-color: white !important;
+    color: #444 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-weight: 500 !important;
+}
+
+.google-btn:hover {
+    background-color: #f1f1f1 !important;
+}
+
+.form-tugas {
+    text-align: left;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+}
+
+.form-tugas label {
+    display: block;
+    font-size: 0.8rem;
+    margin: 10px 0 5px 5px;
+}
+
+.form-tugas select, .form-tugas input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    margin-bottom: 10px;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.save-btn { background-color: #2ecc71 !important; }
+.cancel-btn { background-color: #e74c3c !important; }
+
+/* Gaya kartu tugas di list */
+.task-card {
+    background: white;
+    color: #333;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    border-left: 5px solid #3498db;
+    position: relative;
+}
+
+.priority-Tinggi { border-left-color: #e74c3c; }
+.priority-Sedang { border-left-color: #f1c40f; }
+.priority-Rendah { border-left-color: #2ecc71; }
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    font-family: inherit;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+.activity-card {
+    background: #fdfdfd;
+    color: #333;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    border-left: 5px solid #9b59b6; /* Warna ungu untuk kegiatan */
+    text-align: left;
+}
+
+.activity-card small {
+    display: block;
+    color: #777;
+    margin-top: 5px;
+}
+
+/* Header Dashboard */
+.header-dash {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    position: relative;
+}
+
+/* Tombol Titik Tiga */
+.menu-dots {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 10px;
+}
+.menu-dots span {
+    width: 5px;
+    height: 5px;
+    background-color: white;
+    border-radius: 50%;
+}
+
+/* Dropdown Content */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 20px;
+    top: 60px;
+    background: white;
+    min-width: 180px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    border-radius: 10px;
+    z-index: 100;
+}
+.dropdown-content a {
+    color: #333;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+    font-size: 0.9rem;
+}
+.dropdown-content a:hover { background-color: #f1f1f1; border-radius: 10px; }
+.show { display: block; }
+
+/* Checkbox Style */
+.todo-item {
+    display: flex;
+    align-items: center;
+    background: white;
+    color: #333;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    gap: 12px;
+    text-align: left;
+}
+.todo-item input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+
+/* Pengaturan untuk Layar Kecil (Smartphone) */
+@media screen and (max-width: 600px) {
+    .container {
+        width: 95%; /* Kotak memenuhi layar */
+        padding: 15px;
+        border-radius: 10px;
+    }
+
+    h1 { font-size: 1.5rem; } /* Ukuran teks lebih kecil */
+    
+    .button-group {
+        flex-direction: column; /* Tombol jadi tumpuk atas-bawah */
+    }
+
+    input, button {
+        font-size: 16px; /* Mencegah auto-zoom di iPhone saat ketik */
+    }
+
+    .dropdown-content {
+        width: 90%;
+        right: 5%; /* Menu dropdown jadi lebih lebar di HP */
+    }
+}
