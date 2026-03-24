@@ -1,111 +1,182 @@
 <?php
 session_start();
-include "services/database.php";
+// Menggunakan variabel koneksi $db sesuai referensi register.php 
+// atau ganti menjadi $coon sesuai file koneksi.php Anda
+include "services/database.php"; 
 
-// Keamanan: Cek apakah user sudah login
 if (!isset($_SESSION['is_login']) || $_SESSION['is_login'] !== true) {
     header("location: index.php");
     exit;
 }
 
-$panggilan = $_SESSION['panggilan'];
 $user_id = $_SESSION['user_id'];
+$username = $_SESSION['username'];
 
-// Logika Menampilkan Tugas yang Belum Selesai (Dashboard)
-$sql_tugas = "SELECT * FROM tasks WHERE user_id = '$user_id' AND status = 'Belum Selesai' ORDER BY created_at DESC";
-$result_tugas = $db->query($sql_tugas);
-$jumlah_tugas_belum = $result_tugas->num_rows;
+// --- LOGIKA CRUD (POST) ---
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // 1. TAMBAH TUGAS (Create)
+    if (isset($_POST['tambah_tugas'])) {
+        $nama = mysqli_real_escape_string($db, $_POST['nama_tugas']);
+        $desk = mysqli_real_escape_string($db, $_POST['deskripsi']);
+        $dead = $_POST['deadline'];
+        $waktu = $_POST['waktu'];
+        $prio = $_POST['prioritas'];
+
+        $db->query("INSERT INTO tasks (user_id, nama_tugas, deskripsi, deadline, waktu, prioritas, status) 
+                    VALUES ('$user_id', '$nama', '$desk', '$dead', '$waktu', '$prio', 'Belum Selesai')");
+    }
+
+    // 2. SELESAIKAN TUGAS & HITUNG POIN (Update)
+    if (isset($_POST['set_selesai'])) {
+        $id_tgs = $_POST['id_tugas'];
+        $cek = $db->query("SELECT deadline, waktu FROM tasks WHERE id = '$id_tgs'")->fetch_assoc();
+        
+        $tenggat = $cek['deadline'] . ' ' . $cek['waktu'];
+        $skrg = date('Y-m-d H:i:s');
+        
+        // Logika Poin: Tepat waktu = 10, Terlambat = 2
+        $poin = (strtotime($skrg) <= strtotime($tenggat)) ? 10 : 2;
+
+        $db->query("UPDATE tasks SET status='Selesai', selesai_at='$skrg', poin_konsistensi='$poin' 
+                    WHERE id='$id_tgs' AND user_id='$user_id'");
+    }
+
+    // 3. HAPUS TUGAS (Delete - Referensi delete.php)
+    if (isset($_POST['hapus_tugas'])) {
+        $id_tgs = $_POST['id_tugas'];
+        $db->query("DELETE FROM tasks WHERE id = '$id_tgs' AND user_id = '$user_id'");
+    }
+    header("Location: dashboard.php");
+    exit;
+}
+
+// --- LOGIKA SEARCH ---
+$cari = isset($_GET['search']) ? mysqli_real_escape_string($db, $_GET['search']) : "";
+
+// --- QUERY TUGAS AKTIF & LOGIKA TERLAMBAT ---
+$sql_aktif = "SELECT *, 
+             (CASE WHEN CONCAT(deadline, ' ', waktu) < NOW() THEN 'Terlambat' ELSE 'Mendatang' END) as status_waktu 
+             FROM tasks 
+             WHERE user_id = '$user_id' AND status = 'Belum Selesai' 
+             AND (nama_tugas LIKE '%$cari%' OR deskripsi LIKE '%$cari%')
+             ORDER BY deadline ASC, waktu ASC";
+$res_aktif = $db->query($sql_aktif);
+
+// --- QUERY RIWAYAT ---
+$res_riwayat = $db->query("SELECT * FROM tasks WHERE user_id='$user_id' AND status='Selesai' ORDER BY selesai_at DESC LIMIT 5");
+
+// --- DATA GRAFIK SKOR KONSISTENSI (7 Hari Terakhir) ---
+$labels = []; $data_poin = [];
+for ($i = 6; $i >= 0; $i--) {
+    $tgl = date('Y-m-d', strtotime("-$i days"));
+    $labels[] = date('d M', strtotime($tgl));
+    $res = $db->query("SELECT SUM(poin_konsistensi) as total FROM tasks WHERE user_id='$user_id' AND DATE(selesai_at)='$tgl'");
+    $row = $res->fetch_assoc();
+    $data_poin[] = $row['total'] ?? 0;
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - SIMUT</title>
+    <title>SIMUT - Dashboard Komplit</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        /* Tambahkan CSS spesifik dashboard di sini atau di style.css */
-        .dashboard-container { padding: 20px; }
-        .greeting-card, .task-summary { background-color: #f4f4f4; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #ddd;}
-        .greeting-card h2 { margin-bottom: 5px; color: #2ecc71; }
-        .greeting-card p { font-size: 14px; color: #666; }
-        .summary-stats { display: flex; gap: 20px; margin-top: 15px;}
-        .stat-item { text-align: center; flex: 1; padding: 10px; border-radius: 5px; background-color: white; box-shadow: 0 2px 4px rgba(0,0,0,0.05);}
-        .stat-value { font-size: 24px; font-weight: bold; color: #2ecc71; }
-        .stat-label { font-size: 12px; color: #7f8c8d; }
-        .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .logout-btn { background-color: #e74c3c; color: white; border: none; padding: 5px 10px; border-radius: 4px; font-size: 12px; }
+        .badge { padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: bold; }
+        .bg-danger { background: #e74c3c; color: white; }
+        .bg-info { background: #3498db; color: white; }
+        .bg-success { background: #2ecc71; color: white; }
+        .task-card { background: white; color: #333; padding: 15px; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: left; }
+        .desc-box { font-size: 0.85rem; color: #555; margin: 8px 0; padding-left: 10px; border-left: 3px solid #eee; }
+        .riwayat-card { opacity: 0.7; border-left: 5px solid #2ecc71; }
+        .search-input { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.1); color: white; margin-bottom: 10px; }
     </style>
 </head>
 <body>
-    <div class="container dashboard-container">
-        
-        <header class="page-header">
-            <h3>SIMUT - Tugas Anda</h3>
-            <button class="header-menu logout-btn" onclick="location.href='logout.php'">Keluar</button>
+    <div class="container" style="width: 500px; min-height: 100vh; padding: 20px;">
+        <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h2 style="margin: 0;">Halo, <?= htmlspecialchars($username) ?>!</h2>
+            <button onclick="location.href='logout.php'" style="width: auto; padding: 5px 15px; background: #666;">Logout</button>
         </header>
-        
-        <section class="greeting-card">
-            <h2>Hallo, <?= htmlspecialchars($panggilan) ?>!</h2>
-            <p>Selamat datang di dashboard tugas Anda.</p>
-            
-            <div class="summary-stats">
-                <div class="stat-item">
-                    <div class="stat-value"><?= $jumlah_tugas_belum ?></div>
-                    <div class="stat-label">Tugas Belum Selesai</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value">0</div>
-                    <div class="stat-label">Tugas Selesai</div>
-                </div>
-            </div>
-            
-            <div class="action-buttons" style="margin-top: 15px;">
-                <button class="btn-primary" onclick="alert('Fitur tambah tugas belum terintegrasi database dalam perbaikan ini.')">
-                    <i class="fas fa-plus"></i> Tambah Tugas
-                </button>
-                <button class="btn-secondary" onclick="alert('Fitur riwayat belum terintegrasi database dalam perbaikan ini.')">
-                    <i class="fas fa-history"></i> Lihat Riwayat
-                </button>
-            </div>
-        </section>
 
-        <section class="tasks-container">
-            <h3>Daftar Tugas Belum Selesai</h3>
-            <div class="task-list">
-                <?php if ($result_tugas->num_rows > 0): ?>
-                    <?php while ($row = $result_tugas->fetch_assoc()): ?>
-                        <div class="task-card">
-                            <div class="task-card-header">
-                                <h3><?= htmlspecialchars($row['nama_tugas']) ?></h3>
-                                <span class="priority priority-<?= htmlspecialchars($row['prioritas']) ?>">
-                                    <?= htmlspecialchars($row['prioritas']) ?>
-                                </span>
-                            </div>
-                            <div class="task-card-body">
-                                <p><i class="fas fa-align-left"></i> <?= htmlspecialchars($row['deskripsi']) ?></p>
-                                <p><i class="far fa-calendar-alt"></i>Deadline: <?= htmlspecialchars($row['deadline']) ?> pukul <?= htmlspecialchars($row['waktu']) ?></p>
-                            </div>
-                            <div class="task-card-footer">
-                                <p><i class="far fa-calendar-plus"></i> Dibuat: <?= htmlspecialchars($row['created_at']) ?></p>
-                                <div class="task-actions">
-                                    <button class="btn-sm-success"><i class="fas fa-check"></i> Selesai</button>
-                                </div>
-                            </div>
-                        </div>
-                    <?php endwhile; ?>
-                <?php else: ?>
-                    <div class="task-card">
-                        <div class="task-card-body">
-                           <p>Belum ada tugas.</p>
-                        </div>
-                    </div>
-                <?php endif; ?>
+        <form method="GET">
+            <input type="text" name="search" class="search-input" placeholder="🔍 Cari tugas..." value="<?= htmlspecialchars($cari) ?>">
+        </form>
+
+        <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px; margin-bottom: 25px;">
+            <form method="POST">
+                <input type="text" name="nama_tugas" placeholder="Judul Tugas" required>
+                <textarea name="deskripsi" placeholder="Deskripsi..." style="width:100%; height:50px; margin-bottom:10px; border-radius:5px; padding:10px;"></textarea>
+                <div style="display: flex; gap: 10px;">
+                    <input type="date" name="deadline" required>
+                    <input type="time" name="waktu" required>
+                </div>
+                <select name="prioritas" style="width:100%; padding:10px; margin-bottom:10px; border-radius:5px;">
+                    <option value="Tinggi">Tinggi</option>
+                    <option value="Sedang" selected>Sedang</option>
+                    <option value="Rendah">Rendah</option>
+                </select>
+                <button type="submit" name="tambah_tugas">Simpan Tugas</button>
+            </form>
+        </div>
+
+        <h3>🚀 Tugas Aktif</h3>
+        <?php while($row = $res_aktif->fetch_assoc()): ?>
+            <div class="task-card">
+                <div style="display: flex; justify-content: space-between;">
+                    <strong><?= htmlspecialchars($row['nama_tugas']) ?></strong>
+                    <span class="badge <?= $row['status_waktu'] == 'Terlambat' ? 'bg-danger' : 'bg-info' ?>">
+                        <?= $row['status_waktu'] ?>
+                    </span>
+                </div>
+                <div class="desc-box"><?= nl2br(htmlspecialchars($row['deskripsi'])) ?></div>
+                <small style="color: <?= $row['status_waktu'] == 'Terlambat' ? '#e74c3c' : '#888' ?>;">
+                    ⏰ Deadline: <?= $row['deadline'] ?> | <?= $row['waktu'] ?>
+                </small>
+                <div style="display: flex; gap: 5px; margin-top: 10px;">
+                    <form method="POST" style="flex: 1;"><input type="hidden" name="id_tugas" value="<?= $row['id'] ?>"><button type="submit" name="set_selesai" class="bg-success">Selesai</button></form>
+                    <form method="POST" onsubmit="return confirm('Hapus?')"><input type="hidden" name="id_tugas" value="<?= $row['id'] ?>"><button type="submit" name="hapus_tugas" class="bg-danger">Hapus</button></form>
+                </div>
             </div>
-        </section>
-        
+        <?php endwhile; ?>
+
+        <div style="margin-top: 30px; background: white; padding: 20px; border-radius: 12px;">
+            <h3 style="color: #333; margin: 0; font-size: 14px;">Grafik Skor Konsistensi</h3>
+            <canvas id="performaChart"></canvas>
+        </div>
+
+        <h3 style="margin-top: 30px;">✅ Riwayat Terakhir</h3>
+        <?php while($h = $res_riwayat->fetch_assoc()): ?>
+            <div class="task-card riwayat-card">
+                <div style="display: flex; justify-content: space-between;">
+                    <span style="text-decoration: line-through;"><?= htmlspecialchars($h['nama_tugas']) ?></span>
+                    <span class="badge <?= ($h['poin_konsistensi'] == 10) ? 'bg-success' : 'bg-danger' ?>">
+                        <?= ($h['poin_konsistensi'] == 10) ? '+10' : '+2 (Telat)' ?>
+                    </span>
+                </div>
+            </div>
+        <?php endwhile; ?>
     </div>
+
+    <script>
+    const ctx = document.getElementById('performaChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: <?= json_encode($labels) ?>,
+            datasets: [{
+                label: 'Skor Konsistensi',
+                data: <?= json_encode($data_poin) ?>,
+                borderColor: '#4facfe',
+                backgroundColor: 'rgba(79, 172, 254, 0.2)',
+                fill: true,
+                tension: 0.4
+            }]
+        },
+        options: { scales: { y: { beginAtZero: true } } }
+    });
+    </script>
 </body>
 </html>
