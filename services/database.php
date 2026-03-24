@@ -1,13 +1,15 @@
 <?php
+// Ganti dengan kredensial MySQL Anda
 $hostname = "localhost";
-$username = "root";
-$password = "";
-$database_name = "buku_tamu"; // Sesuaikan dengan nama database di phpMyAdmin
+$username_db = "root";
+$password_db = "root"; // Kosongkan jika menggunakan XAMPP standar
+$database_name = "app_tugas_db"; // Nama database yang Anda buat di SQL atas
 
-$db = mysqli_connect($hostname, $username, $password, $database_name);
+// Membuat koneksi
+$db = mysqli_connect($hostname, $username_db, $password_db, $database_name);
 
-if ($db->connect_error) {
-    echo "Koneksi database rusak";
-    die("error!");
+// Mengecek koneksi
+if (mysqli_connect_errno()) {
+    die("Gagal terhubung ke database: " . mysqli_connect_error());
 }
 ?>
