@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     WHERE id='$id_tgs' AND user_id='$user_id'");
     }
 
-    // 3. HAPUS TUGAS (Delete - Referensi delete.php)
+    // 3. HAPUS TUGAS (Delete)
     if (isset($_POST['hapus_tugas'])) {
         $id_tgs = $_POST['id_tugas'];
         $db->query("DELETE FROM tasks WHERE id = '$id_tgs' AND user_id = '$user_id'");
@@ -65,7 +65,7 @@ $res_aktif = $db->query($sql_aktif);
 // --- QUERY RIWAYAT ---
 $res_riwayat = $db->query("SELECT * FROM tasks WHERE user_id='$user_id' AND status='Selesai' ORDER BY selesai_at DESC LIMIT 5");
 
-// --- DATA GRAFIK SKOR KONSISTENSI (7 Hari Terakhir) ---
+// --- DATA GRAFIK SKOR KONSISTENSI ---
 $labels = []; $data_poin = [];
 for ($i = 6; $i >= 0; $i--) {
     $tgl = date('Y-m-d', strtotime("-$i days"));
@@ -80,103 +80,152 @@ for ($i = 6; $i >= 0; $i--) {
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>SIMUT - Dashboard Komplit</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Produktivitas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        .badge { padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: bold; }
-        .bg-danger { background: #e74c3c; color: white; }
-        .bg-info { background: #3498db; color: white; }
-        .bg-success { background: #2ecc71; color: white; }
-        .task-card { background: white; color: #333; padding: 15px; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: left; }
-        .desc-box { font-size: 0.85rem; color: #555; margin: 8px 0; padding-left: 10px; border-left: 3px solid #eee; }
-        .riwayat-card { opacity: 0.7; border-left: 5px solid #2ecc71; }
-        .search-input { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.1); color: white; margin-bottom: 10px; }
+        body { font-family: 'Poppins', sans-serif; background-color: #f4f7f6; }
+        .card { border: none; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .border-left-primary { border-left: 5px solid #4facfe !important; }
+        .border-left-success { border-left: 5px solid #2ecc71 !important; }
+        .desc-box { background: #f8f9fa; padding: 10px; border-radius: 8px; font-size: 0.9rem; }
     </style>
 </head>
 <body>
-    <div class="container" style="width: 500px; min-height: 100vh; padding: 20px;">
-        <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-            <h2 style="margin: 0;">Halo, <?= htmlspecialchars($username) ?>!</h2>
-            <button onclick="location.href='logout.php'" style="width: auto; padding: 5px 15px; background: #666;">Logout</button>
-        </header>
 
-        <form method="GET">
-            <input type="text" name="search" class="search-input" placeholder="🔍 Cari tugas..." value="<?= htmlspecialchars($cari) ?>">
-        </form>
-
-        <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px; margin-bottom: 25px;">
-            <form method="POST">
-                <input type="text" name="nama_tugas" placeholder="Judul Tugas" required>
-                <textarea name="deskripsi" placeholder="Deskripsi..." style="width:100%; height:50px; margin-bottom:10px; border-radius:5px; padding:10px;"></textarea>
-                <div style="display: flex; gap: 10px;">
-                    <input type="date" name="deadline" required>
-                    <input type="time" name="waktu" required>
-                </div>
-                <select name="prioritas" style="width:100%; padding:10px; margin-bottom:10px; border-radius:5px;">
-                    <option value="Tinggi">Tinggi</option>
-                    <option value="Sedang" selected>Sedang</option>
-                    <option value="Rendah">Rendah</option>
-                </select>
-                <button type="submit" name="tambah_tugas">Simpan Tugas</button>
-            </form>
+<nav class="navbar navbar-expand-lg navbar-dark" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="#">🎓 Student Dashboard</a>
+        <div class="d-flex align-items-center">
+            <span class="text-white me-3 d-none d-md-block">Halo, <?= htmlspecialchars($username) ?>!</span>
+            <button onclick="location.href='logout.php'" class="btn btn-light btn-sm fw-bold text-primary">Logout</button>
         </div>
-
-        <h3>🚀 Tugas Aktif</h3>
-        <?php while($row = $res_aktif->fetch_assoc()): ?>
-            <div class="task-card">
-                <div style="display: flex; justify-content: space-between;">
-                    <strong><?= htmlspecialchars($row['nama_tugas']) ?></strong>
-                    <span class="badge <?= $row['status_waktu'] == 'Terlambat' ? 'bg-danger' : 'bg-info' ?>">
-                        <?= $row['status_waktu'] ?>
-                    </span>
-                </div>
-                <div class="desc-box"><?= nl2br(htmlspecialchars($row['deskripsi'])) ?></div>
-                <small style="color: <?= $row['status_waktu'] == 'Terlambat' ? '#e74c3c' : '#888' ?>;">
-                    ⏰ Deadline: <?= $row['deadline'] ?> | <?= $row['waktu'] ?>
-                </small>
-                <div style="display: flex; gap: 5px; margin-top: 10px;">
-                    <form method="POST" style="flex: 1;"><input type="hidden" name="id_tugas" value="<?= $row['id'] ?>"><button type="submit" name="set_selesai" class="bg-success">Selesai</button></form>
-                    <form method="POST" onsubmit="return confirm('Hapus?')"><input type="hidden" name="id_tugas" value="<?= $row['id'] ?>"><button type="submit" name="hapus_tugas" class="bg-danger">Hapus</button></form>
-                </div>
-            </div>
-        <?php endwhile; ?>
-
-        <div style="margin-top: 30px; background: white; padding: 20px; border-radius: 12px;">
-            <h3 style="color: #333; margin: 0; font-size: 14px;">Grafik Skor Konsistensi</h3>
-            <canvas id="performaChart"></canvas>
-        </div>
-
-        <h3 style="margin-top: 30px;">✅ Riwayat Terakhir</h3>
-        <?php while($h = $res_riwayat->fetch_assoc()): ?>
-            <div class="task-card riwayat-card">
-                <div style="display: flex; justify-content: space-between;">
-                    <span style="text-decoration: line-through;"><?= htmlspecialchars($h['nama_tugas']) ?></span>
-                    <span class="badge <?= ($h['poin_konsistensi'] == 10) ? 'bg-success' : 'bg-danger' ?>">
-                        <?= ($h['poin_konsistensi'] == 10) ? '+10' : '+2 (Telat)' ?>
-                    </span>
-                </div>
-            </div>
-        <?php endwhile; ?>
     </div>
+</nav>
 
-    <script>
-    const ctx = document.getElementById('performaChart').getContext('2d');
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: <?= json_encode($labels) ?>,
-            datasets: [{
-                label: 'Skor Konsistensi',
-                data: <?= json_encode($data_poin) ?>,
-                borderColor: '#4facfe',
-                backgroundColor: 'rgba(79, 172, 254, 0.2)',
-                fill: true,
-                tension: 0.4
-            }]
-        },
-        options: { scales: { y: { beginAtZero: true } } }
-    });
-    </script>
+<div class="container py-4">
+    <div class="row">
+        <div class="col-lg-4 mb-4">
+            <form method="GET" class="mb-3">
+                <div class="input-group shadow-sm">
+                    <input type="text" name="search" class="form-control" placeholder="🔍 Cari tugas..." value="<?= htmlspecialchars($cari) ?>">
+                    <button class="btn btn-primary" type="submit">Cari</button>
+                </div>
+            </form>
+
+            <div class="card mb-4">
+                <div class="card-header bg-white fw-bold py-3">📝 Tambah Tugas Baru</div>
+                <div class="card-body">
+                    <form method="POST">
+                        <div class="mb-3">
+                            <input type="text" name="nama_tugas" class="form-control" placeholder="Judul Tugas" required>
+                        </div>
+                        <div class="mb-3">
+                            <textarea name="deskripsi" class="form-control" placeholder="Deskripsi detail..." rows="2"></textarea>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <label class="form-label small text-muted">Deadline</label>
+                                <input type="date" name="deadline" class="form-control" required>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small text-muted">Waktu</label>
+                                <input type="time" name="waktu" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <select name="prioritas" class="form-select">
+                                <option value="Tinggi">🔥 Prioritas Tinggi</option>
+                                <option value="Sedang" selected>⚡ Prioritas Sedang</option>
+                                <option value="Rendah">☕ Prioritas Rendah</option>
+                            </select>
+                        </div>
+                        <button type="submit" name="tambah_tugas" class="btn btn-primary w-100 fw-bold">Simpan Tugas</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="fw-bold mb-3">📈 Performa Konsistensi </h6>
+                    <canvas id="performaChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-8">
+            <h5 class="fw-bold mb-3 text-secondary">🚀 Tugas Aktif</h5>
+            <div class="row">
+                <?php while($row = $res_aktif->fetch_assoc()): ?>
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 border-left-primary">
+                            <div class="card-body d-flex flex-column">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <h6 class="fw-bold text-dark mb-0"><?= htmlspecialchars($row['nama_tugas']) ?></h6>
+                                    <span class="badge <?= $row['status_waktu'] == 'Terlambat' ? 'bg-danger' : 'bg-info' ?>">
+                                        <?= $row['status_waktu'] ?>
+                                    </span>
+                                </div>
+                                <div class="desc-box mb-3 flex-grow-1 text-muted">
+                                    <?= nl2br(htmlspecialchars($row['deskripsi'])) ?>
+                                </div>
+                                <div class="small fw-bold mb-3" style="color: <?= $row['status_waktu'] == 'Terlambat' ? '#e74c3c' : '#7f8c8d' ?>;">
+                                    ⏰ <?= $row['deadline'] ?> pukul <?= $row['waktu'] ?>
+                                </div>
+                                <div class="d-flex gap-2 mt-auto">
+                                    <form method="POST" class="flex-grow-1">
+                                        <input type="hidden" name="id_tugas" value="<?= $row['id'] ?>">
+                                        <button type="submit" name="set_selesai" class="btn btn-success btn-sm w-100 fw-bold">✓ Selesai</button>
+                                    </form>
+                                    <form method="POST" onsubmit="return confirm('Yakin ingin menghapus tugas ini?')">
+                                        <input type="hidden" name="id_tugas" value="<?= $row['id'] ?>">
+                                        <button type="submit" name="hapus_tugas" class="btn btn-outline-danger btn-sm">Hapus</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php endwhile; ?>
+                <?php if($res_aktif->num_rows == 0): ?>
+                    <div class="col-12"><div class="alert alert-light text-center border">Hore! Tidak ada tugas aktif saat ini. 🎉</div></div>
+                <?php endif; ?>
+            </div>
+
+            <h5 class="fw-bold mt-4 mb-3 text-secondary">✅ Riwayat Terakhir</h5>
+            <div class="list-group shadow-sm mb-4">
+                <?php while($h = $res_riwayat->fetch_assoc()): ?>
+                    <div class="list-group-item d-flex justify-content-between align-items-center border-left-success">
+                        <span class="text-decoration-line-through text-muted"><?= htmlspecialchars($h['nama_tugas']) ?></span>
+                        <span class="badge <?= ($h['poin_konsistensi'] == 10) ? 'bg-success' : 'bg-warning text-dark' ?> rounded-pill">
+                            <?= ($h['poin_konsistensi'] == 10) ? '+10 Poin' : '+2 Poin (Telat)' ?>
+                        </span>
+                    </div>
+                <?php endwhile; ?>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const ctx = document.getElementById('performaChart').getContext('2d');
+new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: <?= json_encode($labels) ?>,
+        datasets: [{
+            label: 'Skor',
+            data: <?= json_encode($data_poin) ?>,
+            borderColor: '#4facfe',
+            backgroundColor: 'rgba(79, 172, 254, 0.2)',
+            fill: true,
+            tension: 0.4
+        }]
+    },
+    options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
