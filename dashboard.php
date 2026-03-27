@@ -1,6 +1,42 @@
 <?php
-// Koneksi database dan logika session biasanya diletakkan di sini
-// include 'config.php'; 
+include "services/database.php"; 
+
+// Bypass login untuk Rossi
+$user_id = 1; 
+$username = "Rossi";
+
+// --- LOGIKA CRUD ---
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['tambah_tugas'])) {
+        $nama = mysqli_real_escape_string($db, $_POST['nama_tugas']);
+        $desk = mysqli_real_escape_string($db, $_POST['deskripsi']);
+        $dead = $_POST['deadline'];
+        $waktu = $_POST['waktu'];
+        $prio = $_POST['prioritas'];
+
+        $db->query("INSERT INTO tasks (user_id, nama_tugas, deskripsi, deadline, waktu, prioritas, status) 
+                    VALUES ('$user_id', '$nama', '$desk', '$dead', '$waktu', '$prio', 'Belum Selesai')");
+    }
+
+    if (isset($_POST['set_selesai'])) {
+        $id_tgs = $_POST['id_tugas'];
+        // Logika scoring dipisah ke branch features-ross/consistency-scoring-logic
+        // Untuk sementara, update status saja agar murni CRUD
+        $db->query("UPDATE tasks SET status='Selesai', selesai_at=NOW() WHERE id='$id_tgs' AND user_id='$user_id'");
+    }
+
+    if (isset($_POST['hapus_tugas'])) {
+        $id_tgs = $_POST['id_tugas'];
+        $db->query("DELETE FROM tasks WHERE id = '$id_tgs' AND user_id = '$user_id'");
+    }
+    header("Location: dashboard.php");
+    exit;
+}
+
+$cari = isset($_GET['search']) ? mysqli_real_escape_string($db, $_GET['search']) : "";
+$res_aktif = $db->query("SELECT *, (CASE WHEN CONCAT(deadline, ' ', waktu) < NOW() THEN 'Terlambat' ELSE 'Mendatang' END) as status_waktu 
+                         FROM tasks WHERE user_id = '$user_id' AND status = 'Belum Selesai' 
+                         AND (nama_tugas LIKE '%$cari%' OR deskripsi LIKE '%$cari%') ORDER BY deadline ASC");
 ?>
 
 <!DOCTYPE html>
@@ -8,105 +44,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Rossi Task Management</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <title>SIMUT - Task Manager</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-<body class="bg-light">
-
-<nav class="navbar navbar-dark bg-primary shadow-sm mb-4">
+<body>
     <div class="container">
-        <span class="navbar-brand mb-0 h1"><i class="bi bi-check2-square"></i> Rossi Task Manager</span>
-    </div>
-</nav>
-
-<div class="container">
-    <div class="row mb-4">
-        <div class="col-md-8">
-            <h2>Selamat Datang di Fitur Task Management</h2>
-            <p class="text-muted">Kelola tugas harian Anda dengan efisien.</p>
-        </div>
-        <div class="col-md-4 text-md-end">
-            <a href="task_create.php" class="btn btn-success">
-                <i class="bi bi-plus-circle"></i> Tambah Tugas Baru
-            </a>
-        </div>
-    </div>
-
-    <div class="row mb-4">
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm bg-info text-white">
-                <div class="card-body">
-                    <h5>Total Tugas</h5>
-                    <h2 class="fw-bold">12</h2>
+        <header>
+            <div class="header-logo">
+                <i class="fas fa-check-circle logo-icon"></i>
+                <div class="logo-text">
+                    <h1>SIMUT</h1>
+                    <p>Task Management</p>
                 </div>
             </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm bg-warning text-dark">
-                <div class="card-body">
-                    <h5>Sedang Berjalan</h5>
-                    <h2 class="fw-bold">5</h2>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm bg-success text-white">
-                <div class="card-body">
-                    <h5>Selesai</h5>
-                    <h2 class="fw-bold">7</h2>
-                </div>
-            </div>
-        </div>
-    </div>
+            <button class="header-menu" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+            <nav class="nav-menu" id="navMenu">
+                <ul>
+                    <li><a href="dashboard.php"><i class="fas fa-home"></i> Beranda</a></li>
+                    <li><a href="index.php"><i class="fas fa-sign-out-alt"></i> Keluar</a></li>
+                </ul>
+            </nav>
+        </header>
 
-    <div class="card border-0 shadow-sm">
-        <div class="card-header bg-white py-3">
-            <h5 class="mb-0">Daftar Tugas Anda</h5>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-hover align-middle">
-                    <thead class="table-light">
-                        <tr>
-                            <th>No</th>
-                            <th>Nama Tugas</th>
-                            <th>Prioritas</th>
-                            <th>Status</th>
-                            <th>Deadline</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td><strong>Integrasi API Rossi</strong></td>
-                            <td><span class="badge bg-danger">Tinggi</span></td>
-                            <td><span class="badge bg-secondary">Pending</span></td>
-                            <td>2026-03-30</td>
-                            <td>
-                                <a href="task_edit.php?id=1" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
-                                <a href="task_delete.php?id=1" class="btn btn-sm btn-outline-danger" onclick="return confirm('Yakin hapus?')"><i class="bi bi-trash"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Update Dokumentasi UI</td>
-                            <td><span class="badge bg-info">Rendah</span></td>
-                            <td><span class="badge bg-success">Selesai</span></td>
-                            <td>2026-03-25</td>
-                            <td>
-                                <a href="task_edit.php?id=2" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
-                                <a href="task_delete.php?id=2" class="btn btn-sm btn-outline-danger" onclick="return confirm('Yakin hapus?')"><i class="bi bi-trash"></i></a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+        <main>
+            <div class="greeting-card">
+                <h2>Halo, <?= $username ?>!</h2>
+                <p>Kelola tugasmu dengan efisien hari ini.</p>
             </div>
-        </div>
-    </div>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+            <section class="auth-card">
+                <h3><i class="fas fa-plus-square"></i> Tugas Baru</h3>
+                <form method="POST">
+                    <div class="input-group">
+                        <i class="fas fa-tag"></i>
+                        <input type="text" name="nama_tugas" placeholder="Apa yang ingin dikerjakan?" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-align-left" style="top: 25px;"></i>
+                        <textarea name="deskripsi" placeholder="Detail tugas..."></textarea>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <div class="input-group" style="flex: 1;">
+                            <i class="fas fa-calendar-alt"></i>
+                            <input type="date" name="deadline" required>
+                        </div>
+                        <div class="input-group" style="flex: 1;">
+                            <i class="fas fa-clock"></i>
+                            <input type="time" name="waktu" required>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-layer-group"></i>
+                        <select name="prioritas">
+                            <option value="Tinggi">Prioritas Tinggi</option>
+                            <option value="Sedang" selected>Prioritas Sedang</option>
+                            <option value="Rendah">Prioritas Rendah</option>
+                        </select>
+                    </div>
+                    <button type="submit" name="tambah_tugas" class="btn-primary">Simpan Tugas</button>
+                </form>
+            </section>
+
+            <hr style="border: 0; border-top: 1px solid #eee; margin: 25px 0;">
+
+            <form method="GET" class="input-group" style="margin-bottom: 20px;">
+                <i class="fas fa-search"></i>
+                <input type="text" name="search" placeholder="Cari tugas..." value="<?= htmlspecialchars($cari) ?>">
+            </form>
