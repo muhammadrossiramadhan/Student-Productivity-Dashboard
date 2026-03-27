@@ -20,8 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (isset($_POST['set_selesai'])) {
         $id_tgs = $_POST['id_tugas'];
-        // Logika scoring dipisah ke branch features-ross/consistency-scoring-logic
-        // Untuk sementara, update status saja agar murni CRUD
+        // Logika scoring akan di-include di branch scoring-logic
         $db->query("UPDATE tasks SET status='Selesai', selesai_at=NOW() WHERE id='$id_tgs' AND user_id='$user_id'");
     }
 
@@ -112,3 +111,55 @@ $res_aktif = $db->query("SELECT *, (CASE WHEN CONCAT(deadline, ' ', waktu) < NOW
                 <i class="fas fa-search"></i>
                 <input type="text" name="search" placeholder="Cari tugas..." value="<?= htmlspecialchars($cari) ?>">
             </form>
+
+            <div class="task-list">
+                <?php if($res_aktif->num_rows == 0): ?>
+                    <p style="text-align: center; color: #999; font-size: 13px;">Belum ada tugas aktif.</p>
+                <?php endif; ?>
+
+                <?php while($row = $res_aktif->fetch_assoc()): ?>
+                    <div class="task-card">
+                        <div class="task-card-header">
+                            <h3><?= htmlspecialchars($row['nama_tugas']) ?></h3>
+                            <span class="priority priority-<?= $row['prioritas'] ?>"><?= $row['prioritas'] ?></span>
+                        </div>
+                        <div class="task-card-body">
+                            <p style="color: #666; font-size: 13px;"><?= nl2br(htmlspecialchars($row['deskripsi'])) ?></p>
+                            <p style="font-size: 11px; color: #888;">
+                                <i class="fas fa-clock"></i> <?= $row['deadline'] ?> | <?= $row['waktu'] ?>
+                                <span style="margin-left: 10px; color: <?= $row['status_waktu'] == 'Terlambat' ? '#e74c3c' : '#4facfe' ?>;">
+                                    <strong><?= $row['status_waktu'] ?></strong>
+                                </span>
+                            </p>
+                        </div>
+                        <div class="task-card-footer">
+                            <form method="POST">
+                                <input type="hidden" name="id_tugas" value="<?= $row['id'] ?>">
+                                <button type="submit" name="set_selesai" class="btn-sm-success">Selesai</button>
+                            </form>
+                            <form method="POST" onsubmit="return confirm('Hapus tugas?')">
+                                <input type="hidden" name="id_tugas" value="<?= $row['id'] ?>">
+                                <button type="submit" name="hapus_tugas" style="background: none; border: none; color: #e74c3c; cursor: pointer;">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                <?php endwhile; ?>
+            </div>
+
+            <?php 
+                if (file_exists("features/analytics_view.php")) {
+                    include "features/analytics_view.php"; 
+                }
+            ?>
+
+        </main>
+
+        <footer>
+            <p>&copy; 2026 SIMUT CRUD Mode</p>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
