@@ -1,35 +1,32 @@
 <?php
-// Pastikan variabel global tersedia
-global $db, $user_id;
+// Gunakan global agar variabel dari dashboard.php terbaca
+global $db, $user_id, $id_tgs;
 
-// 1. Ambil data tenggat waktu (deadline & waktu) dari database
-$sql_cek = "SELECT deadline, waktu FROM tasks WHERE id = '$id_tgs' AND user_id = '$user_id'";
+if (!isset($db) || !isset($id_tgs)) {
+    return; 
+}
+
+// 1. Ambil data tugas
+$sql_cek = "SELECT deadline, waktu FROM tasks WHERE id = '$id_tgs'";
 $res_cek = $db->query($sql_cek);
 
-if ($res_cek->num_rows > 0) {
+if ($res_cek && $res_cek->num_rows > 0) {
     $data = $res_cek->fetch_assoc();
     
-    // Gabungkan tanggal dan jam menjadi format timestamp
-    $tenggat_timestamp = strtotime($data['deadline'] . ' ' . $data['waktu']);
-    $waktu_sekarang = time(); // Timestamp saat ini
-    
-    // 2. Logika Penentuan Poin
-    // Jika waktu sekarang masih kurang dari atau sama dengan tenggat = TEPAT WAKTU
-    if ($waktu_sekarang <= $tenggat_timestamp) {
-        $poin = 10;
-    } else {
-        // Jika melewati tenggat = TERLAMBAT
-        $poin = 2;
-    }
-    
-    // 3. Update database dengan status 'Selesai', waktu penyelesaian, dan poin yang didapat
-    $waktu_selesai = date('Y-m-d H:i:s');
+    // Hitung Deadline vs Waktu Sekarang
+    $deadline_time = strtotime($data['deadline'] . ' ' . $data['waktu']);
+    $current_time = time(); 
+
+    // 2. Kalkulasi Poin: Tepat waktu (10), Terlambat (2)
+    $poin = ($current_time <= $deadline_time) ? 10 : 2;
+    $now = date('Y-m-d H:i:s');
+
+    // 3. Update Database (Status, Waktu Selesai, dan Poin)
     $sql_update = "UPDATE tasks 
                    SET status = 'Selesai', 
-                       selesai_at = '$waktu_selesai', 
+                       selesai_at = '$now', 
                        poin_konsistensi = '$poin' 
-                   WHERE id = '$id_tgs' AND user_id = '$user_id'";
+                   WHERE id = '$id_tgs'";
                    
     $db->query($sql_update);
 }
-?>

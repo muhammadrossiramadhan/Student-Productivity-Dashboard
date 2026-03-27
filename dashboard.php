@@ -19,14 +19,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
 if (isset($_POST['set_selesai'])) {
-    $id_tgs = $_POST['id_tugas'];
-    // Memanggil logika perhitungan poin dari folder features
-    if (file_exists("features/scoring_logic.php")) {
-        include "features/scoring_logic.php";
-    } else {
-        // Fallback jika file belum ada (hanya update status)
-        $db->query("UPDATE tasks SET status='Selesai', selesai_at=NOW() WHERE id='$id_tgs' AND user_id='$user_id'");
+    $id_tgs = $_POST['id_tugas']; 
+    if (file_exists("scoring_logic.php")) { // Hapus 'features/'
+        include "scoring_logic.php";
     }
+    header("Location: dashboard.php");
+    exit;
 }
 
     if (isset($_POST['hapus_tugas'])) {
@@ -154,8 +152,8 @@ $res_aktif = $db->query("SELECT *, (CASE WHEN CONCAT(deadline, ' ', waktu) < NOW
             </div>
 
             <?php 
-                if (file_exists("features/analytics_view.php")) {
-                    include "features/analytics_view.php"; 
+                if (file_exists("analytics_view.php")) { // Hapus 'features/'
+                    include "analytics_view.php"; 
                 }
             ?>
 
