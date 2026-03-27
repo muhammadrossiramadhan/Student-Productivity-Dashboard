@@ -20,7 +20,6 @@ if (isset($_POST["login"])) {
             $_SESSION['username'] = $data['username'];
             $_SESSION['is_login'] = true;
 
-            header("location: dashboard.php");
             exit;
         } else {
             header("location: index.php?status=gagal_login");

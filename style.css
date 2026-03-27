@@ -274,15 +274,6 @@ button:active {
     font-weight: 600;
 }
 
-/* Task & Dashboard */
-.greeting-card {
-    background-color: #f8f9fa;
-    padding: 20px;
-    border-radius: 12px;
-    border: 1px solid #eee;
-    margin-bottom: 25px;
-}
-
 .greeting-card h2 {
     text-align: left;
     color: #4facfe;

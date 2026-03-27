@@ -1,11 +1,6 @@
 <?php
 // Mulai session untuk mengecek apakah user sudah login
 session_start();
-// Jika sudah login, redirect langsung ke dashboard
-if (isset($_SESSION['is_login']) && $_SESSION['is_login'] === true) {
-    header("location: dashboard.php");
-    exit;
-}
 ?>
 <!DOCTYPE html>
 <html lang="id">
