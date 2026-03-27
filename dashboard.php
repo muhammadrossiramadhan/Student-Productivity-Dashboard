@@ -18,11 +18,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     VALUES ('$user_id', '$nama', '$desk', '$dead', '$waktu', '$prio', 'Belum Selesai')");
     }
 
-    if (isset($_POST['set_selesai'])) {
-        $id_tgs = $_POST['id_tugas'];
-        // Logika scoring akan di-include di branch scoring-logic
+if (isset($_POST['set_selesai'])) {
+    $id_tgs = $_POST['id_tugas'];
+    // Memanggil logika perhitungan poin dari folder features
+    if (file_exists("features/scoring_logic.php")) {
+        include "features/scoring_logic.php";
+    } else {
+        // Fallback jika file belum ada (hanya update status)
         $db->query("UPDATE tasks SET status='Selesai', selesai_at=NOW() WHERE id='$id_tgs' AND user_id='$user_id'");
     }
+}
 
     if (isset($_POST['hapus_tugas'])) {
         $id_tgs = $_POST['id_tugas'];
