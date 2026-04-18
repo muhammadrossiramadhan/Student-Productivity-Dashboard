@@ -36,14 +36,16 @@ if (isset($_POST["login"])) {
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Login - SIMUT</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign-In</title>
     <link rel="stylesheet" href="assets/css/login.css">
 </head>
 <body class="login-body"> 
     <div class="login-box"> 
 
         <div class="login-header"> 
-            <h2><i class="fas fa-sign-in-alt"></i> Welcome Back </h2>
+            <h2><i class="fas fa-sign-in-alt"></i> Welcome Back!</h2>
+            <p>Sign in to continue to your account.</p>
         </div>
             
         <form action="" method="POST">
