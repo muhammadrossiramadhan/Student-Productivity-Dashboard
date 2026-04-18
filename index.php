@@ -33,7 +33,7 @@ if (isset($_SESSION['is_login']) && $_SESSION['is_login'] === true) {
             <nav class="nav-menu" id="navMenu">
                 <ul>
                     <li><a href="#" onclick="showPage('pageAwal')"><i class="fas fa-home"></i> Beranda</a></li>
-                    <li><a href="#" onclick="showPage('pageLogin')"><i class="fas fa-sign-in-alt"></i> Masuk</a></li>
+                    <li><a href="login.php"><i class="fas fa-sign-in-alt"></i> Masuk</a></li>
                     <li><a href="#" onclick="showPage('pageDaftar')"><i class="fas fa-user-plus"></i> Daftar</a></li>
                     <li><a href="#" onclick="showPage('pageTentang')"><i class="fas fa-info-circle"></i> Tentang</a></li>
                 </ul>
@@ -48,31 +48,12 @@ if (isset($_SESSION['is_login']) && $_SESSION['is_login'] === true) {
                     <p>Kelola setiap detik waktu Anda untuk pencapaian terbaik.</p>
                     <div class="action-buttons">
                         <button class="btn-primary" onclick="showPage('pageDaftar')">Daftar Sekarang</button>
-                        <button class="btn-secondary" onclick="showPage('pageLogin')">Saya Sudah Punya Akun</button>
+                        <button class="btn-secondary" onclick="location.href='login.php'">Saya Sudah Punya Akun</button>
                     </div>
                 </div>
             </section>
 
-            <section id="pageLogin" class="page-content">
-                <div class="auth-card">
-                    <h2><i class="fas fa-sign-in-alt"></i> Selamat Datang Kembali</h2>
-                    <p>Silakan masuk untuk melanjutkan tugas Anda.</p>
-                    
-                    <form id="formLogin" action="login.php" method="POST">
-                        <div class="input-group">
-                            <i class="fas fa-user"></i>
-                            <input type="text" name="username" placeholder="Nama Pengguna" required>
-                        </div>
-                        <div class="input-group">
-                            <i class="fas fa-lock"></i>
-                            <input type="password" name="password" placeholder="Kata Sandi" required>
-                        </div>
-                        <button type="submit" name="login" class="btn-full btn-primary">Masuk</button>
-                    </form>
-                    
-                    <p class="auth-footer">Belum punya akun? <a href="#" onclick="showPage('pageDaftar')">Daftar</a></p>
-                </div>
-            </section>
+
 
             <section id="pageDaftar" class="page-content">
                 <div class="auth-card">
