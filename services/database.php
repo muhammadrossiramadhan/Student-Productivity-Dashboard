@@ -2,7 +2,7 @@
 // Ganti dengan kredensial MySQL Anda
 $hostname = "localhost";
 $username_db = "root";
-$password_db = "root"; // Kosongkan jika menggunakan XAMPP standar
+$password_db = ""; // Kosongkan jika menggunakan XAMPP standar
 $database_name = "app_tugas_db"; // Nama database yang Anda buat di SQL atas
 
 // Membuat koneksi
