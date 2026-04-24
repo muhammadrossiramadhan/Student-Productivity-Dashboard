@@ -27,7 +27,7 @@ if (isset($_SESSION['is_login']) && $_SESSION['is_login'] === true) {
 
         <main class="hero-content">
             <h1>SATU TEMPAT UNTUK SEMUA<br>TUGAS DAN JADWALMU</h1>
-            <p>QWERTYUIOPASDFGHJKLZXCVBNM</p>
+            <p>Ayoo jadikan  semua tugas dan jadwalmu lebih terorganisir!</p>
             
             <a href="register.php" class="btn-buat">MULAI SEKARANG &#8599;</a> 
         </main>
