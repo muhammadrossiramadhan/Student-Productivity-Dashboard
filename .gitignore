@@ -1,2 +1,6 @@
-phpmyadmin
+# Ignore phpmyadmin folder
+phpmyadmin/
+
+# Ignore SQL database files
+*.sql
 app_tugas_bd.sql
