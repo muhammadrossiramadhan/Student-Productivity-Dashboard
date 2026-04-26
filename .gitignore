@@ -3,4 +3,4 @@ phpmyadmin/
 
 # Ignore SQL database files
 *.sql
-app_tugas_bd.sql
+app_tugas_db.sql
