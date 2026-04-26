@@ -1,1 +1,0 @@
-/etc/webapps/phpmyadmin/config.inc.php
