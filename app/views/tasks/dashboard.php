@@ -11,7 +11,7 @@
 
     <!-- Navbar -->
     <nav class="navbar">
-        <div class="nav-brand">📚 Student.io</div>
+        <div class="nav-brand">Student Productivity Dashboard</div>
         <div class="nav-right">
             <div class="nav-user">Halo, <?= htmlspecialchars($_SESSION['username'] ?? 'Student') ?>!</div>
             <a href="/index.php?url=auth/logout" class="btn btn-logout">Logout</a>
@@ -40,7 +40,7 @@
                 
                 <!-- Form Buat Tugas -->
                 <div class="task-card" style="border-color: rgba(56,189,248,.4);">
-                    <h3 style="margin-bottom: 1rem; color: var(--primary);">📝 Buat Tugas Baru</h3>
+                    <h3 style="margin-bottom: 1rem; color: var(--primary);">Buat Tugas Baru</h3>
                     <form action="/index.php?url=task/store" method="POST">
                         <div class="form-group">
                             <label>Nama Tugas</label>
@@ -63,9 +63,9 @@
                         <div class="form-group">
                             <label>Prioritas</label>
                             <select name="prioritas">
-                                <option value="Tinggi">🔴 Tinggi</option>
-                                <option value="Sedang" selected>🟡 Sedang</option>
-                                <option value="Rendah">🟢 Rendah</option>
+                                <option value="Tinggi">Tinggi</option>
+                                <option value="Sedang" selected>Sedang</option>
+                                <option value="Rendah">Rendah</option>
                             </select>
                         </div>
                         <button type="submit" class="btn btn-primary btn-block">Simpan Tugas</button>
@@ -74,7 +74,7 @@
 
                 <!-- Daftar Tugas Aktif -->
                 <div>
-                    <h3 style="margin-bottom: 1rem;">🚀 Tugas Aktif</h3>
+                    <h3 style="margin-bottom: 1rem;">Tugas Aktif</h3>
                     <div class="task-list">
                         <?php if (empty($activeTasks)): ?>
                             <div class="empty-state">
@@ -114,12 +114,12 @@
             <div style="display: flex; flex-direction: column; gap: 1.5rem;">
                 
                 <div class="task-card">
-                    <h3 style="margin-bottom: 1rem; font-size: 1rem;">📈 Grafik Skor Konsistensi</h3>
+                    <h3 style="margin-bottom: 1rem; font-size: 1rem;">Grafik Skor Konsistensi</h3>
                     <canvas id="performaChart"></canvas>
                 </div>
 
                 <div>
-                    <h3 style="margin-bottom: 1rem;">✅ Riwayat Terakhir</h3>
+                    <h3 style="margin-bottom: 1rem;">Riwayat Terakhir</h3>
                     <div class="task-list">
                         <?php foreach ($historyTasks as $h): ?>
                             <div class="task-card task-done">
