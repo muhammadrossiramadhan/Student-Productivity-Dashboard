@@ -119,8 +119,6 @@
     </style>
 </head>
 <body>
-
-    <!-- HERO -->
     <div class="hero-section">
         
         <nav class="top-nav">
@@ -131,7 +129,7 @@
             <h1>SATU TEMPAT UNTUK SEMUA<br>TUGAS DAN JADWALMU</h1>
             <p>Ayoo jadikan semua tugas dan jadwalmu lebih terorganisir!</p>
             
-            <a href="#" class="btn-buat">Mulai Sekarang</a>
+            <a href="register.php" class="btn-buat">Mulai Sekarang &#8599;</a>
         </div>
 
         <div class="bottom-bar">
@@ -142,7 +140,6 @@
         </div>
     </div>
 
-    <!-- SECTION PUTIH -->
     <section id="student" class="student-section">
         <div class="student-text">
             <h2>Apa itu Student.IO?</h2>
@@ -158,6 +155,15 @@
             <img src="https://img.freepik.com/premium-vector/education-achievement-with-books-trophy-graduation-ceremony-concept_1326094-11473.jpg" alt="Student.IO">
         </div>
     </section>
+
+    <?php if(isset($_GET['status'])): ?>
+        <script>
+            const status = "<?php echo $_GET['status']; ?>";
+            if(status === 'gagal_daftar') alert('Pendaftaran gagal. Username sudah digunakan!');
+            if(status === 'sukses_daftar') alert('Pendaftaran berhasil! Silakan masuk.');
+            if(status === 'gagal_login') alert('Masuk gagal. Username atau password salah!');
+        </script>
+    <?php endif; ?>
 
 </body>
 </html>

@@ -14,6 +14,43 @@ if (isset($_SESSION['is_login']) && $_SESSION['is_login'] === true) {
     <title></title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/index.css">
+    <style>
+        .student-section {
+            min-height: 100vh;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 10%;
+            gap: 50px;
+        }
+
+        .student-text {
+            width: 50%;
+        }
+
+        .student-text h2 {
+            font-size: 40px;
+            margin-bottom: 20px;
+            color: #222;
+        }
+
+        .student-text p {
+            font-size: 18px;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .student-image {
+            width: 45%;
+            text-align: center;
+        }
+
+        .student-image img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
 </head>
 <body>
     <div class="hero-section">
@@ -27,7 +64,6 @@ if (isset($_SESSION['is_login']) && $_SESSION['is_login'] === true) {
             <p>Ayoo jadikan  semua tugas dan jadwalmu lebih terorganisir!</p>
             
             <a href="register.php" class="btn-buat">Mulai Sekarang &#8599;</a>
-            <a href="register.php" class="btn-buat">Learn More &#8599;</a>
         </main>
 
         <div class="bottom-bar">
@@ -38,6 +74,22 @@ if (isset($_SESSION['is_login']) && $_SESSION['is_login'] === true) {
         </div>
 
     </div>
+
+    <section id="student" class="student-section">
+        <div class="student-text">
+            <h2>Apa itu Student.IO?</h2>
+            <p>
+                Student.IO adalah platform yang membantu pelajar dan mahasiswa
+                mengatur tugas, jadwal, dan aktivitas belajar dalam satu tempat.
+                Dengan Student.IO, semua tugas menjadi lebih terorganisir dan
+                mudah dipantau.
+            </p>
+        </div>
+
+        <div class="student-image">
+            <img src="https://img.freepik.com/premium-vector/education-achievement-with-books-trophy-graduation-ceremony-concept_1326094-11473.jpg" alt="Student.IO">
+        </div>
+    </section>
 
     <?php if(isset($_GET['status'])): ?>
         <script>
