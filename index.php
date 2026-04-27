@@ -19,17 +19,15 @@ if (isset($_SESSION['is_login']) && $_SESSION['is_login'] === true) {
     <div class="hero-section">
         
         <nav class="top-nav">
-            <a href="#fitur">A</a>
-            <a href="#metode">B</a>
-            <a href="login.php">C</a>
-            <a href="#">D</a>
+            <a href="#student" class="btn-info">Apa itu Student.IO</a>
         </nav>
 
         <main class="hero-content">
             <h1>SATU TEMPAT UNTUK SEMUA<br>TUGAS DAN JADWALMU</h1>
             <p>Ayoo jadikan  semua tugas dan jadwalmu lebih terorganisir!</p>
             
-            <a href="register.php" class="btn-buat">MULAI SEKARANG &#8599;</a> 
+            <a href="register.php" class="btn-buat">Mulai Sekarang &#8599;</a>
+            <a href="register.php" class="btn-buat">Learn More &#8599;</a>
         </main>
 
         <div class="bottom-bar">
