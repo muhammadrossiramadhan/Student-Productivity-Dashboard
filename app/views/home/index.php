@@ -11,7 +11,7 @@
 
     <!-- Layer Background Image Full Screen -->
     <div class="fixed inset-0 bg-cover bg-center opacity-[0.35] -z-10" 
-         style="background-image: url('https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1920&auto=format&fit=crop');">
+         style="background-image: url('https://images.unsplash.com/photo-1455390582262-044cdead277a?q=80&w=1073&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
     </div>
 
     <!-- Navigation -->
@@ -27,10 +27,10 @@
         
         <!-- Wrapper Konten Utama -->
         <div class="flex flex-col items-center">
-            <h1 class="text-4xl md:text-6xl font-bold tracking-tighter mb-4 max-w-4xl uppercase glow-text">
+            <h1 class="text-white text-4xl md:text-6xl font-bold tracking-tighter mb-4 max-w-4xl uppercase glow-text">
                 Satu Tempat Untuk Semua Tugas dan Jadwalmu
             </h1>
-            <p class="text-gray-300 text-lg md:text-xl mb-10 max-w-2xl font-light">
+            <p class="text-white text-lg md:text-xl mb-10 max-w-2xl font-light">
                 Ayo kelola jadwal dan tugas-tugas agar lebih mudah
             </p>
             
