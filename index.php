@@ -15,6 +15,17 @@ if (isset($_SESSION['is_login']) && $_SESSION['is_login'] === true) {
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/index.css">
     <style>
+        .full-screen-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; 
+            z-index: -1; 
+            filter: brightness(0.6); 
+    }
+
         .student-section {
             min-height: 100vh;
             background: white;
@@ -71,6 +82,10 @@ if (isset($_SESSION['is_login']) && $_SESSION['is_login'] === true) {
             <a href="#">INTEGRATION</a>
             <a href="#">COLLABORATE</a>
             <a href="#">HELP</a>
+        </div>
+
+        <div class="image">
+            <img src="https://blogassets.leverageedu.com/blog/wp-content/uploads/2019/11/23172446/PhD-in-English-380x220.png" class="full-screen-background" alt="Haro-Image">
         </div>
 
     </div>
