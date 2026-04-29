@@ -95,8 +95,8 @@ if (isset($_SESSION['is_login']) && $_SESSION['is_login'] === true) {
             <h2>Apa itu Student.IO?</h2>
             <p>
                 Student.IO adalah platform yang membantu pelajar dan mahasiswa
-                mengatur tugas, jadwal, dan aktivitas belajar dalam satu tempat.
-                Dengan Student.IO, semua tugas menjadi lebih terorganisir dan
+                untuk mengatur tugas, jadwal, dan aktivitas belajar dalam satu
+                tempat. Dengan Student.IO, semua tugas menjadi lebih terorganisir dan
                 mudah dipantau.
             </p>
         </div>
