@@ -28,6 +28,9 @@ class Database {
                     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
                 ]
             );
+
+            // Sinkronkan waktu MySQL ke WIB (+07:00) agar fungsi NOW() akurat
+            $this->pdo->exec("SET time_zone = '+07:00'");
         } catch (PDOException $e) {
             // Di production: jangan tampilkan error ke user!
             die(json_encode(['error' => 'Koneksi database gagal: ' . $e->getMessage()]));

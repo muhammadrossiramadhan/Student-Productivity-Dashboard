@@ -16,7 +16,7 @@ class AuthController extends Controller {
     public function login(): void {
         // Kalau sudah login, langsung ke dashboard
         if (isset($_SESSION['user_id'])) {
-            $this->redirect('/index.php?url=task/index');
+            $this->redirect('task/index');
         }
         $this->view('auth/login');
     }
@@ -24,7 +24,7 @@ class AuthController extends Controller {
     // ── POST: Proses login ─────────────────────────────────────
     public function doLogin(): void {
         if ($this->method() !== 'POST') {
-            $this->redirect('/index.php?url=auth/login');
+            $this->redirect('auth/login');
         }
 
         $username = trim($_POST['username'] ?? '');
@@ -43,7 +43,7 @@ class AuthController extends Controller {
             $_SESSION['username']  = $user['username'];
             $_SESSION['panggilan'] = $user['panggilan'] ?? $user['username'];
 
-            $this->redirect('/index.php?url=task/index');
+            $this->redirect('task/index');
         } else {
             $this->view('auth/login', ['error' => 'Username atau password salah!']);
         }
@@ -52,7 +52,7 @@ class AuthController extends Controller {
     // ── GET: Tampilkan form register ───────────────────────────
     public function register(): void {
         if (isset($_SESSION['user_id'])) {
-            $this->redirect('/index.php?url=task/index');
+            $this->redirect('task/index');
         }
         $this->view('auth/register');
     }
@@ -60,7 +60,7 @@ class AuthController extends Controller {
     // ── POST: Proses register ──────────────────────────────────
     public function doRegister(): void {
         if ($this->method() !== 'POST') {
-            $this->redirect('/index.php?url=auth/register');
+            $this->redirect('auth/register');
         }
 
         $username  = trim($_POST['username']  ?? '');
@@ -84,12 +84,12 @@ class AuthController extends Controller {
         }
 
         $this->userModel->create($username, $password, $panggilan ?: $username);
-        $this->redirect('/index.php?url=auth/login');
+        $this->redirect('auth/login');
     }
 
     // ── Logout ─────────────────────────────────────────────────
     public function logout(): void {
         session_destroy();
-        $this->redirect('/index.php?url=auth/login');
+        $this->redirect('auth/login');
     }
 }

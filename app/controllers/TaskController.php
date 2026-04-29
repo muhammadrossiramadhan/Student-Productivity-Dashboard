@@ -31,6 +31,17 @@ class TaskController extends Controller {
         $this->requireLogin();
         if ($this->method() === 'POST') {
             $this->taskModel->addTask($_SESSION['user_id'], $_POST['nama_tugas'], $_POST['deskripsi'], $_POST['deadline'], $_POST['waktu'], $_POST['prioritas']);
+            $_SESSION['flash_success'] = "Tugas baru berhasil ditambahkan!";
+        }
+        $this->redirect('/index.php?url=task/index');
+    }
+
+    // Memproses Edit Tugas
+    public function edit() {
+        $this->requireLogin();
+        if ($this->method() === 'POST') {
+            $this->taskModel->updateTask($_POST['task_id'], $_SESSION['user_id'], $_POST['nama_tugas'], $_POST['deskripsi'], $_POST['deadline'], $_POST['waktu'], $_POST['prioritas']);
+            $_SESSION['flash_success'] = "Tugas berhasil diperbarui!";
         }
         $this->redirect('/index.php?url=task/index');
     }
@@ -38,14 +49,20 @@ class TaskController extends Controller {
     // Memproses Tugas Selesai
     public function done($id) {
         $this->requireLogin();
-        if ($this->method() === 'POST' && $id) $this->taskModel->markAsDone($id, $_SESSION['user_id']);
+        if ($this->method() === 'POST' && $id) {
+            $this->taskModel->markAsDone($id, $_SESSION['user_id']);
+            $_SESSION['flash_success'] = "Mantap! Tugas diselesaikan dan poin ditambahkan.";
+        }
         $this->redirect('/index.php?url=task/index');
     }
 
     // Memproses Hapus Tugas
     public function delete($id) {
         $this->requireLogin();
-        if ($this->method() === 'POST' && $id) $this->taskModel->deleteTask($id, $_SESSION['user_id']);
+        if ($this->method() === 'POST' && $id) {
+            $this->taskModel->deleteTask($id, $_SESSION['user_id']);
+            $_SESSION['flash_success'] = "Tugas telah dihapus.";
+        }
         $this->redirect('/index.php?url=task/index');
     }
 }

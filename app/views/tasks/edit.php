@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Tugas — Student.io</title>
-    <link rel="stylesheet" href="/style.css">
+    <title>Edit Tugas — Student Productivity</title>
+    <link rel="stylesheet" href="<?= BASE_PATH ?>/public/assets/css/style.css">
 </head>
 <body class="auth-page">
 
 <div class="auth-card" style="max-width:520px">
     <div class="auth-logo">✏️ Edit Tugas</div>
 
-    <form method="POST" action="/index.php?url=task/update/<?= $task['id'] ?>">
+    <form method="POST" action="<?= BASE_PATH ?>/index.php?url=task/update/<?= $task['id'] ?>">
 
         <div class="form-group">
             <label>Nama Tugas *</label>
@@ -53,7 +53,7 @@
 
         <div class="modal-actions">
             <button type="submit" class="btn btn-primary">💾 Simpan Perubahan</button>
-            <a href="/index.php?url=task/index" class="btn btn-ghost">← Batal</a>
+            <a href="<?= BASE_PATH ?>/index.php?url=task/index" class="btn btn-ghost">← Batal</a>
         </div>
 
     </form>
