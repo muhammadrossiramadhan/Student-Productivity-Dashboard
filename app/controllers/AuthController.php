@@ -16,7 +16,7 @@ class AuthController extends Controller {
     public function login(): void {
         // Kalau sudah login, langsung ke dashboard
         if (isset($_SESSION['user_id'])) {
-            $this->redirect('/index.php?url=task/index');
+            $this->redirect('task/index');
         }
         $this->view('auth/login');
     }
@@ -24,7 +24,7 @@ class AuthController extends Controller {
     // ── POST: Proses login ─────────────────────────────────────
     public function doLogin(): void {
         if ($this->method() !== 'POST') {
-            $this->redirect('/index.php?url=auth/login');
+            $this->redirect('auth/login');
         }
 
         $username = trim($_POST['username'] ?? '');
@@ -43,7 +43,7 @@ class AuthController extends Controller {
             $_SESSION['username']  = $user['username'];
             $_SESSION['panggilan'] = $user['panggilan'] ?? $user['username'];
 
-            $this->redirect('/index.php?url=task/index');
+            $this->redirect('task/index');
         } else {
             $this->view('auth/login', ['error' => 'Username atau password salah!']);
         }
@@ -52,7 +52,7 @@ class AuthController extends Controller {
     // ── GET: Tampilkan form register ───────────────────────────
     public function register(): void {
         if (isset($_SESSION['user_id'])) {
-            $this->redirect('/index.php?url=task/index');
+            $this->redirect('task/index');
         }
         $this->view('auth/register');
     }
@@ -60,7 +60,7 @@ class AuthController extends Controller {
     // ── POST: Proses register ──────────────────────────────────
     public function doRegister(): void {
         if ($this->method() !== 'POST') {
-            $this->redirect('/index.php?url=auth/register');
+            $this->redirect('auth/register');
         }
 
         $username  = trim($_POST['username']  ?? '');
@@ -83,13 +83,43 @@ class AuthController extends Controller {
             return;
         }
 
+        // 1. Simpan data user baru ke database
         $this->userModel->create($username, $password, $panggilan ?: $username);
-        $this->redirect('/index.php?url=auth/login');
+
+        // 2. Ambil data user yang baru saja dibuat
+        $user = $this->userModel->findByUsername($username);
+
+        // 3. Set session (Otomatis Login)
+        $_SESSION['user_id']   = $user['id'];
+        $_SESSION['username']  = $user['username'];
+        $_SESSION['panggilan'] = $user['panggilan'] ?? $user['username'];
+
+        // 4. Arahkan langsung ke dashboard
+        $this->redirect('task/index');
     }
 
     // ── Logout ─────────────────────────────────────────────────
     public function logout(): void {
+        // 1. Kosongkan semua variabel session
+        $_SESSION = [];
+
+        // 2. Hapus cookie session dari browser pengguna
+        if (ini_get("session.use_cookies")) {
+            $params = session_get_cookie_params();
+            setcookie(session_name(), '', time() - 42000,
+                $params["path"], $params["domain"],
+                $params["secure"], $params["httponly"]
+            );
+        }
+
+        // 3. Hancurkan session di sisi server
         session_destroy();
-        $this->redirect('/index.php?url=auth/login');
+        $this->redirect('auth/login');
+    }
+
+    // ── Lupa Password (Sederhana) ──────────────────────────────
+    public function forgotPassword(): void {
+        // Untuk sementara, arahkan ke halaman informasi sederhana
+        $this->view('auth/forgot_password');
     }
 }
