@@ -31,7 +31,8 @@ abstract class Controller {
      * @param string $path Path relatif di dalam aplikasi, cth: 'task/index'
      */
     protected function redirect(string $path): void {
-        $url = BASE_PATH . '/index.php?url=' . $path;
+        // Gunakan index.php?url= agar jalan di semua server (Apache & Nginx)
+        $url = BASE_PATH . '/index.php?url=' . trim($path, '/');
         header("Location: " . $url);
         exit;
     }

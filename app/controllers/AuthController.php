@@ -83,13 +83,43 @@ class AuthController extends Controller {
             return;
         }
 
+        // 1. Simpan data user baru ke database
         $this->userModel->create($username, $password, $panggilan ?: $username);
-        $this->redirect('auth/login');
+
+        // 2. Ambil data user yang baru saja dibuat
+        $user = $this->userModel->findByUsername($username);
+
+        // 3. Set session (Otomatis Login)
+        $_SESSION['user_id']   = $user['id'];
+        $_SESSION['username']  = $user['username'];
+        $_SESSION['panggilan'] = $user['panggilan'] ?? $user['username'];
+
+        // 4. Arahkan langsung ke dashboard
+        $this->redirect('task/index');
     }
 
     // ── Logout ─────────────────────────────────────────────────
     public function logout(): void {
+        // 1. Kosongkan semua variabel session
+        $_SESSION = [];
+
+        // 2. Hapus cookie session dari browser pengguna
+        if (ini_get("session.use_cookies")) {
+            $params = session_get_cookie_params();
+            setcookie(session_name(), '', time() - 42000,
+                $params["path"], $params["domain"],
+                $params["secure"], $params["httponly"]
+            );
+        }
+
+        // 3. Hancurkan session di sisi server
         session_destroy();
         $this->redirect('auth/login');
+    }
+
+    // ── Lupa Password (Sederhana) ──────────────────────────────
+    public function forgotPassword(): void {
+        // Untuk sementara, arahkan ke halaman informasi sederhana
+        $this->view('auth/forgot_password');
     }
 }

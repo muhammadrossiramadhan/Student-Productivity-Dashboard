@@ -15,12 +15,6 @@ class Router {
         $url   = trim($url, '/');
         $parts = explode('/', $url);
 
-        // Bagian 0: nama controller (default: auth)
-        $controllerName = !empty($parts[0])
-            ? ucfirst(strtolower($parts[0])) . 'Controller'
-            : 'AuthController';
-
- 
         // Jika URL kosong (misal: ?url=), kita arahkan ke halaman default 'home/index'
         // untuk menghindari error.
         if (empty($parts[0])) {
