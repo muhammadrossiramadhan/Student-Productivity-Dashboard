@@ -20,6 +20,16 @@ class Router {
             ? ucfirst(strtolower($parts[0])) . 'Controller'
             : 'AuthController';
 
+ 
+        // Jika URL kosong (misal: ?url=), kita arahkan ke halaman default 'home/index'
+        // untuk menghindari error.
+        if (empty($parts[0])) {
+            $parts = ['home', 'index'];
+        }
+ 
+        // Bagian 0: nama controller
+        $controllerName = ucfirst(strtolower($parts[0])) . 'Controller';
+ 
         // Bagian 1: nama method (default: index)
         $method = $parts[1] ?? 'index';
 
