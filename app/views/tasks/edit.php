@@ -11,7 +11,7 @@
 <div class="auth-card" style="max-width:520px">
     <div class="auth-logo">✏️ Edit Tugas</div>
 
-    <form method="POST" action="/index.php?url=task/update/<?= $task['id'] ?>">
+    <form method="POST" action="index.php?url=task/update/<?= $task['id'] ?>">
 
         <div class="form-group">
             <label>Nama Tugas *</label>
@@ -53,7 +53,7 @@
 
         <div class="modal-actions">
             <button type="submit" class="btn btn-primary">💾 Simpan Perubahan</button>
-            <a href="/index.php?url=task/index" class="btn btn-ghost">← Batal</a>
+            <a href="index.php?url=task/index" class="btn btn-ghost">← Batal</a>
         </div>
 
     </form>

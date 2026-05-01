@@ -21,7 +21,7 @@
         </div>
     <?php endif; ?>
 
-    <form method="POST" action="/index.php?url=auth/doRegister">
+    <form method="POST" action="index.php?url=auth/doRegister">
         <div class="auth-input-field">
             <i class="fas fa-id-card"></i>
             <input type="text" name="panggilan" placeholder="Nama Panggilan"
@@ -46,8 +46,8 @@
     </form>
 
     <div class="auth-footer">
-        <p>Already have an account? <a href="/index.php?url=auth/login">Sign in</a></p>
-        <p><a href="/index.php?url=home/index">Back to Home</a></p>
+        <p>Already have an account? <a href="index.php?url=auth/login">Sign in</a></p>
+        <p><a href="index.php?url=home/index">Back to Home</a></p>
     </div>
 </div>
 

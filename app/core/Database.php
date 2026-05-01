@@ -16,7 +16,7 @@ class Database {
         $host   = 'localhost';
         $dbname = 'app_tugas_db';
         $user   = 'root';
-        $pass   = 'root';
+        $pass   = '';
 
         try {
             $this->pdo = new PDO(

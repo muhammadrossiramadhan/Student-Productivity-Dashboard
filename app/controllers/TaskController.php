@@ -32,20 +32,20 @@ class TaskController extends Controller {
         if ($this->method() === 'POST') {
             $this->taskModel->addTask($_SESSION['user_id'], $_POST['nama_tugas'], $_POST['deskripsi'], $_POST['deadline'], $_POST['waktu'], $_POST['prioritas']);
         }
-        $this->redirect('/index.php?url=task/index');
+        $this->redirect('index.php?url=task/index');
     }
 
     // Memproses Tugas Selesai
     public function done($id) {
         $this->requireLogin();
         if ($this->method() === 'POST' && $id) $this->taskModel->markAsDone($id, $_SESSION['user_id']);
-        $this->redirect('/index.php?url=task/index');
+        $this->redirect('index.php?url=task/index');
     }
 
     // Memproses Hapus Tugas
     public function delete($id) {
         $this->requireLogin();
         if ($this->method() === 'POST' && $id) $this->taskModel->deleteTask($id, $_SESSION['user_id']);
-        $this->redirect('/index.php?url=task/index');
+        $this->redirect('index.php?url=task/index');
     }
 }

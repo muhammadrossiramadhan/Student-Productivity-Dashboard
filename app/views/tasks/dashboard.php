@@ -14,7 +14,7 @@
         <div class="nav-brand">Student Productivity Dashboard</div>
         <div class="nav-right">
             <div class="nav-user">Halo, <?= htmlspecialchars($_SESSION['username'] ?? 'Student') ?>!</div>
-            <a href="/index.php?url=auth/logout" class="btn btn-logout">Logout</a>
+            <a href="index.php?url=auth/logout" class="btn btn-logout">Logout</a>
         </div>
     </nav>
 
@@ -22,12 +22,12 @@
         
         <!-- Toolbar & Search -->
         <div class="toolbar">
-            <form method="GET" action="/index.php" class="search-form">
+            <form method="GET" action="index.php" class="search-form">
                 <input type="hidden" name="url" value="task/index">
                 <input type="text" name="search" placeholder="🔍 Cari tugas atau deskripsi..." value="<?= htmlspecialchars($search) ?>">
                 <button type="submit" class="btn btn-primary">Cari</button>
                 <?php if(!empty($search)): ?>
-                    <a href="/index.php?url=task/index" class="btn btn-secondary">Reset</a>
+                    <a href="index.php?url=task/index" class="btn btn-secondary">Reset</a>
                 <?php endif; ?>
             </form>
         </div>
@@ -41,7 +41,7 @@
                 <!-- Form Buat Tugas -->
                 <div class="task-card" style="border-color: rgba(56,189,248,.4);">
                     <h3 style="margin-bottom: 1rem; color: var(--primary);">Buat Tugas Baru</h3>
-                    <form action="/index.php?url=task/store" method="POST">
+                    <form action="index.php?url=task/store" method="POST">
                         <div class="form-group">
                             <label>Nama Tugas</label>
                             <input type="text" name="nama_tugas" required placeholder="Contoh: Makalah Basis Data">
@@ -96,10 +96,10 @@
                                         <span>⏰ <?= date('d M Y', strtotime($row['deadline'])) ?> | <?= $row['waktu'] ?></span>
                                     </div>
                                     <div class="task-actions" style="margin-top: 0.5rem;">
-                                        <form method="POST" action="/index.php?url=task/done/<?= $row['id'] ?>" style="display:inline;">
+                                        <form method="POST" action="index.php?url=task/done/<?= $row['id'] ?>" style="display:inline;">
                                             <button type="submit" class="btn btn-success btn-sm">Selesai</button>
                                         </form>
-                                        <form method="POST" action="/index.php?url=task/delete/<?= $row['id'] ?>" style="display:inline;" onsubmit="return confirm('Yakin ingin menghapus tugas ini?');">
+                                        <form method="POST" action="index.php?url=task/delete/<?= $row['id'] ?>" style="display:inline;" onsubmit="return confirm('Yakin ingin menghapus tugas ini?');">
                                             <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
                                         </form>
                                     </div>

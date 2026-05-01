@@ -40,7 +40,7 @@ abstract class Controller {
      */
     protected function requireLogin(): void {
         if (!isset($_SESSION['user_id'])) {
-            $this->redirect('/index.php?url=auth/login');
+            $this->redirect('index.php?url=auth/login');
         }
     }
 
