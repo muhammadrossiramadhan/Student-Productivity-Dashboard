@@ -1,53 +1,57 @@
 <?php
 session_start();
-// Tetap mempertahankan logika redirect jika user sudah masuk
-if (isset($_SESSION['is_login']) && $_SESSION['is_login'] === true) {
-    header("location: dashboard.php");
-    exit;
+
+require_once 'app/controllers/HomeController.php';
+require_once 'app/controllers/AuthController.php';
+require_once 'app/controllers/DashboardController.php';
+require_once 'app/controllers/TaskController.php';
+
+$action = $_GET['action'] ?? 'home';
+
+switch ($action) {
+    case 'home':
+        $homeController = new HomeController();
+        $homeController->index();
+        break;
+    case 'login':
+        $authController = new AuthController();
+        $authController->login();
+        break;
+    case 'register':
+        $authController = new AuthController();
+        $authController->register();
+        break;
+    case 'process_login':
+        $authController = new AuthController();
+        $authController->processLogin();
+        break;
+    case 'process_register':
+        $authController = new AuthController();
+        $authController->processRegister();
+        break;
+    case 'dashboard':
+        $dashboardController = new DashboardController();
+        $dashboardController->index();
+        break;
+    case 'add_task':
+        $taskController = new TaskController();
+        $taskController->add();
+        break;
+    case 'edit_task':
+        $taskController = new TaskController();
+        $taskController->update();
+        break;
+    case 'delete_task':
+        $taskController = new TaskController();
+        $taskController->delete();
+        break;
+    case 'logout':
+        $authController = new AuthController();
+        $authController->logout();
+        break;
+    default:
+        $homeController = new HomeController();
+        $homeController->index();
+        break;
 }
 ?>
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/index.css">
-</head>
-<body>
-    <div class="hero-section">
-        
-        <nav class="top-nav">
-            <a href="#fitur">A</a>
-            <a href="#metode">B</a>
-            <a href="login.php">C</a>
-            <a href="#">D</a>
-        </nav>
-
-        <main class="hero-content">
-            <h1>SATU TEMPAT UNTUK SEMUA<br>TUGAS DAN JADWALMU</h1>
-            <p>QWERTYUIOPASDFGHJKLZXCVBNM</p>
-            
-            <a href="register.php" class="btn-buat">MULAI SEKARANG &#8599;</a> 
-        </main>
-
-        <div class="bottom-bar">
-            <a href="#">COMMUNITY</a>
-            <a href="#">INTEGRATION</a>
-            <a href="#">COLLABORATE</a>
-            <a href="#">HELP</a>
-        </div>
-
-    </div>
-
-    <?php if(isset($_GET['status'])): ?>
-        <script>
-            const status = "<?php echo $_GET['status']; ?>";
-            if(status === 'gagal_daftar') alert('Pendaftaran gagal. Username sudah digunakan!');
-            if(status === 'sukses_daftar') alert('Pendaftaran berhasil! Silakan masuk.');
-            if(status === 'gagal_login') alert('Masuk gagal. Username atau password salah!');
-        </script>
-    <?php endif; ?>
-</body>
-</html>
