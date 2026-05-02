@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login — Student.io</title>
-    <link rel="stylesheet" href="public/assets/css/style.css">
+    <link rel="stylesheet" href="<?= BASE_PATH ?>/public/assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body class="auth-body">
@@ -21,7 +21,7 @@
         </div>
     <?php endif; ?>
 
-    <form method="POST" action="index.php?url=auth/doLogin">
+    <form method="POST" action="<?= BASE_PATH ?>/index.php?url=auth/doLogin">
         <div class="auth-input-field">
             <i class="fas fa-user"></i>
             <input type="text" name="username" placeholder="Username"
@@ -34,14 +34,18 @@
             <input type="password" name="password" placeholder="Password" required>
         </div>
 
+        <div style="text-align: right; margin-bottom: 15px; font-size: 13px;">
+            <a href="<?= BASE_PATH ?>/index.php?url=auth/forgotPassword" style="color: #4c8dff; text-decoration: none;">Lupa Password?</a>
+        </div>
+
         <button type="submit" name="login" class="auth-btn-primary">
             Login
         </button>
     </form>
 
     <div class="auth-footer">
-        <p>Don't have an account? <a href="index.php?url=auth/register">Sign up</a></p>
-        <p><a href="index.php?url=home/index">Back to Home</a></p>
+        <p>Don't have an account? <a href="<?= BASE_PATH ?>/index.php?url=auth/register">Sign up</a></p>
+        <p><a href="<?= BASE_PATH ?>/index.php?url=home/index">Back to Home</a></p>
     </div>
 </div>
 

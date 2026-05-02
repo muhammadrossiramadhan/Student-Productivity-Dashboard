@@ -28,9 +28,12 @@ abstract class Controller {
 
     /**
      * Redirect ke URL lain
+     * @param string $path Path relatif di dalam aplikasi, cth: 'task/index'
      */
-    protected function redirect(string $url): void {
-        header("Location: $url");
+    protected function redirect(string $path): void {
+        // Gunakan index.php?url= agar jalan di semua server (Apache & Nginx)
+        $url = BASE_PATH . '/index.php?url=' . trim($path, '/');
+        header("Location: " . $url);
         exit;
     }
 
@@ -40,7 +43,7 @@ abstract class Controller {
      */
     protected function requireLogin(): void {
         if (!isset($_SESSION['user_id'])) {
-            $this->redirect('index.php?url=auth/login');
+            $this->redirect('auth/login');
         }
     }
 

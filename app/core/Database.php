@@ -16,7 +16,7 @@ class Database {
         $host   = 'localhost';
         $dbname = 'app_tugas_db';
         $user   = 'root';
-        $pass   = '';
+        $pass   = ''; // 1. Coba pakai password kosong dulu (Default XAMPP Windows/Linux)
 
         try {
             $this->pdo = new PDO(
@@ -28,9 +28,26 @@ class Database {
                     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
                 ]
             );
+
+            // Sinkronkan waktu MySQL ke WIB (+07:00) agar fungsi NOW() akurat
+            $this->pdo->exec("SET time_zone = '+07:00'");
         } catch (PDOException $e) {
-            // Di production: jangan tampilkan error ke user!
-            die(json_encode(['error' => 'Koneksi database gagal: ' . $e->getMessage()]));
+            // 2. Jika ditolak (error), otomatis coba pakai password 'root' (MAMP/Mac)
+            try {
+                $this->pdo = new PDO(
+                    "mysql:host=$host;dbname=$dbname;charset=utf8mb4",
+                    $user,
+                    'root',
+                    [
+                        PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+                        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                    ]
+                );
+                $this->pdo->exec("SET time_zone = '+07:00'");
+            } catch (PDOException $e2) {
+                // 3. Jika dua-duanya tetap gagal, baru tampilkan pesan error
+                die("❌ Koneksi database gagal. Pastikan database '$dbname' sudah dibuat di phpMyAdmin dan XAMPP berjalan.<br>Error: " . $e2->getMessage());
+            }
         }
     }
 

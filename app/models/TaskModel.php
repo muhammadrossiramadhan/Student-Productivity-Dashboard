@@ -58,16 +58,29 @@ class TaskModel extends Model {
         return $stmt->execute([$user_id, $nama, $desk, $dead, $waktu, $prio]);
     }
 
+    // 4b. Update Tugas (Edit)
+    public function updateTask($id, $user_id, $nama, $desk, $dead, $waktu, $prio) {
+        $stmt = $this->db->prepare("UPDATE tasks SET nama_tugas = ?, deskripsi = ?, deadline = ?, waktu = ?, prioritas = ? WHERE id = ? AND user_id = ?");
+        return $stmt->execute([$nama, $desk, $dead, $waktu, $prio, $id, $user_id]);
+    }
+
     // 5. Tandai Selesai dan Hitung Poin (Update)
     public function markAsDone($id, $user_id) {
-        $stmt = $this->db->prepare("SELECT deadline, waktu FROM tasks WHERE id = ?");
+        $stmt = $this->db->prepare("SELECT deadline, waktu, prioritas FROM tasks WHERE id = ?");
         $stmt->execute([$id]);
         $cek = $stmt->fetch();
         if(!$cek) return false;
 
         $tenggat = $cek['deadline'] . ' ' . $cek['waktu'];
         $skrg = date('Y-m-d H:i:s');
-        $poin = (strtotime($skrg) <= strtotime($tenggat)) ? 10 : 2; // Tepat waktu=10, Terlambat=2
+        
+        // Logika Poin Baru: Mempertimbangkan Prioritas
+        $is_ontime = (strtotime($skrg) <= strtotime($tenggat));
+        if ($is_ontime) {
+            $poin = ($cek['prioritas'] === 'Tinggi') ? 15 : (($cek['prioritas'] === 'Sedang') ? 10 : 5);
+        } else {
+            $poin = ($cek['prioritas'] === 'Tinggi') ? 5 : (($cek['prioritas'] === 'Sedang') ? 3 : 1);
+        }
 
         $stmtU = $this->db->prepare("UPDATE tasks SET status='Selesai', selesai_at=?, poin_konsistensi=? WHERE id=? AND user_id=?");
         return $stmtU->execute([$skrg, $poin, $id, $user_id]);
