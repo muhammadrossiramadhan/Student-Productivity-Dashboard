@@ -1,0 +1,243 @@
+/* dashboard.css - UI by Yoshua */
+
+:root {
+    /* Warna Utama (Primary Colors) */
+    --bg-dark: #0e1322;
+    --primary: #2979FF;
+    --secondary: #b0c6ff;
+
+    /* Tipografi & Kontras */
+    --text-main: #dee1f7;
+    --text-muted: #c2c6d7;
+
+    /* Elemen UI */
+    --surface: #161b2b;
+    --border: rgba(66, 70, 85, 0.2); /* Ghost Border 20% */
+
+    /* Status & Feedback */
+    --focus: #343949;
+    --accent: #b0c6ff;
+}
+
+/* Reset Dasar */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    overflow-x: hidden;
+}
+
+/* Layout Utama */
+.dashboard-container {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    height: 100vh;
+}
+
+/* --- Pengaturan Sidebar --- */
+.sidebar {
+    background-color: var(--bg-dark);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    padding: 32px 24px;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 40px;
+    cursor: pointer;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    background-color: var(--primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+}
+
+.user-name {
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--text-main);
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex-grow: 1;
+}
+
+.menu-item {
+    text-decoration: none;
+    color: var(--text-muted);
+    padding: 12px 16px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.95rem;
+}
+
+.menu-item:hover {
+    background-color: var(--focus);
+    color: var(--text-main);
+}
+
+.menu-item.active {
+    background-color: var(--focus);
+    color: var(--text-main);
+    border-left: 4px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+}
+
+.bottom-menu {
+    margin-top: auto;
+}
+
+.text-danger { color: #dc3545 !important; }
+.text-danger:hover { background-color: rgba(220, 53, 69, 0.1) !important; color: #ff6b7a !important; }
+
+/* --- Pengaturan Konten Utama --- */
+.main-content {
+    padding: 48px;
+    overflow-y: auto;
+}
+
+.top-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 48px;
+}
+
+.top-header h1 {
+    font-size: 1.25rem;
+    letter-spacing: 1px;
+    color: var(--text-main);
+    white-space: nowrap;
+}
+
+/* --- Fitur Pencarian MVC --- */
+.search-form {
+    display: flex;
+    gap: 8px;
+    flex: 1;
+    max-width: 400px;
+    margin: 0 24px;
+}
+.search-input {
+    width: 100%;
+    padding: 10px 16px;
+    border-radius: 30px;
+    border: 1px solid var(--border);
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    font-size: 0.95rem;
+}
+.search-input:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: #fff;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+.btn-primary:hover { background-color: #1c66e6; }
+
+/* --- Pengaturan Kartu (Cards) --- */
+.content-section h2 {
+    font-size: 1rem;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+    font-weight: 500;
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+.card {
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+}
+.card:hover { border-color: var(--secondary); }
+
+.card-info { margin-bottom: 12px; }
+.card-info h3 { font-size: 1.05rem; color: var(--text-main); margin-bottom: 8px; }
+.card-info p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 4px; }
+
+/* --- Fitur Tombol MVC pada Card --- */
+.card-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    justify-content: flex-end;
+}
+.btn-success, .btn-danger-sm {
+    border: none; padding: 6px 12px; border-radius: 6px;
+    cursor: pointer; font-size: 0.8rem; font-weight: 600;
+    display: inline-flex; align-items: center; gap: 4px; color: white;
+}
+.btn-success { background-color: #28a745; }
+.btn-success:hover { background-color: #218838; }
+.btn-danger-sm { background-color: #dc3545; }
+.btn-danger-sm:hover { background-color: #c82333; }
+
+/* Priority badges & dots */
+.priority-badge {
+    display: inline-block; padding: 4px 10px; border-radius: 12px;
+    font-size: 0.75rem !important; font-weight: 600; margin-top: 8px;
+}
+.priority-badge.tinggi { background-color: rgba(220,53,69,0.2); color: #ff6b7a; border: 1px solid #dc3545; }
+.priority-badge.sedang { background-color: rgba(255,193,7,0.2); color: #ffda6a; border: 1px solid #ffc107; }
+.priority-badge.rendah { background-color: rgba(40,167,69,0.2); color: #75b798; border: 1px solid #28a745; }
+
+/* --- Modals & Utilities Sama Seperti Code Asli Yoshua --- */
+.modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); align-items: center; justify-content: center; backdrop-filter: blur(4px); }
+.modal-content { background-color: var(--surface); padding: 32px; border-radius: 16px; width: 90%; max-width: 500px; position: relative; border: 1px solid var(--border); }
+.close { position: absolute; right: 24px; top: 20px; color: var(--text-muted); font-size: 28px; font-weight: bold; cursor: pointer; }
+.close:hover { color: var(--text-main); }
+.modal-content h2 { margin-bottom: 24px; color: var(--text-main); font-size: 1.25rem; }
+.input-group { margin-bottom: 16px; display: flex; flex-direction: column; gap: 6px; }
+.input-group label { font-size: 0.9rem; color: var(--text-muted); font-weight: 500; }
+.input-group input, .input-group select, .input-group textarea { padding: 12px; border-radius: 8px; border: 1px solid var(--border); background-color: var(--bg-dark); color: var(--text-main); font-size: 0.95rem; }
+.input-group input:focus, .input-group select:focus, .input-group textarea:focus { outline: none; border-color: var(--primary); }
+.input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+/* Flash Notifications */
+.toast-notif { position: fixed; bottom: 20px; right: 20px; background-color: #10b981; color: white; padding: 12px 24px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 9999; opacity: 0; transform: translateY(20px); transition: opacity 0.3s ease, transform 0.3s ease; }
+.toast-notif.show { opacity: 1; transform: translateY(0); }
