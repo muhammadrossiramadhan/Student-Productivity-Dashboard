@@ -1,58 +1,179 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🎓 Student Productivity Dashboard
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A sleek, lightweight web application designed to help students manage tasks, stay focused, and organize their academic life. Styled with a modern **LMS (Learning Management System)** aesthetic, this dashboard is built for simplicity and customization XD
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+![](https://media.tenor.com/dToZwOQOtBwAAAAi/strinova-kokona.gif)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🚀 For Pros (TL;DR)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+A simple web project for task reminders styled like an LMS web app or desktop application. Customize the appearance/style as you like—build on your own branch via fork or clone.
 
-## Learning Laravel
+> [!IMPORTANT]
+> New to GitHub? Please follow this beginner-friendly guide in exact sequence for any OS.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 📑 Table of Contents
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+* [✨ Features](#-features)
+* [1. Install Git](#1-install-git)
+* [2. Fork & Clone](#2-fork--clone)
+* [3. Syncing with Upstream](#3-syncing-with-upstream)
+* [4. Making Changes](#4-making-changes)
+* [5. Sharing Your Work](#5-sharing-your-work)
+* [🚀 Quick Command Reference](#-quick-command-reference)
 
-## Agentic Development
+---
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+## ✨ Features
+
+* **Task Reminders** — Never miss a deadline.
+* **LMS Interface** — Familiar, clean, and distraction-free design.
+* **Local Development** — Easy to run, no complex servers required.
+* **Customizable** — Fork it, style it, and make it your own.
+
+---
+
+## 1. Install Git
+
+Before you start, you need Git installed on your computer.
+
+### Linux
 
 ```bash
-composer require laravel/boost --dev
+# Fedora
+sudo dnf install git-all
 
-php artisan boost:install
+# Ubuntu / Debian
+sudo apt install git
+
+# Arch Linux
+sudo pacman -S git
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+### Windows & macOS
 
-## Contributing
+1. Download Git from the official site: [https://git-scm.com/downloads](https://git-scm.com/downloads)
+2. Verify installation:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+git --version
+```
 
-## Code of Conduct
+3. Configure Git (replace with your info):
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+git config --global user.name "Your Name"
+git config --global user.email "your@email.com"
+```
 
-## Security Vulnerabilities
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## 2. Fork & Clone
 
-## License
+**Forking** creates a copy of this project on your GitHub account. **Cloning** downloads it to your computer.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+1. Navigate to the original repository:
+   [https://github.com/muhammadrossiramadhan/Student-Productivity-Dashboard](https://github.com/muhammadrossiramadhan/Student-Productivity-Dashboard)
+2. Click the **Fork** button (top-right).
+3. Clone your fork:
+
+```bash
+# Replace YOUR-USERNAME with your GitHub username
+git clone https://github.com/YOUR-USERNAME/Student-Productivity-Dashboard.git
+cd Student-Productivity-Dashboard
+```
+
+> [!NOTE]
+> VS Code users can open the project instantly:
+
+```bash
+code .
+```
+
+Sign in via Command Palette if prompted (`Ctrl+Shift+P` / `Cmd+Shift+P`).
+
+---
+
+## 3. Syncing with Upstream
+
+To receive updates from the original repository:
+
+```bash
+git remote add upstream https://github.com/muhammadrossiramadhan/Student-Productivity-Dashboard.git
+```
+
+---
+
+## 4. Making Changes
+
+⚠️ **Never edit the `main` branch directly.** Always use a feature branch.
+
+Create and switch to a new branch:
+
+```bash
+git checkout -b your-feature-name
+```
+
+Examples:
+
+* `task-reminders`
+* `pomodoro-timer`
+* `dark-theme`
+
+Edit files and test locally by opening `index.html` in your browser.
+
+Stage and commit changes:
+
+```bash
+git add .
+git commit -m "Add your feature description here"
+```
+
+> [!WARNING]
+> Use clear, descriptive commit messages and always test before committing.
+
+---
+
+## 5. Sharing Your Work 9 ( opsional )
+
+Push your branch to GitHub:
+
+```bash
+git push -u origin your-feature-name
+```
+
+Then:
+
+1. Go to your GitHub repository.
+2. Click **Compare & pull request**.
+3. Describe your changes and submit the PR.
+
+---
+
+## 🚀 Quick Command Reference
+
+| Action        | Command                   | When to Use            |
+| ------------- | ------------------------- | ---------------------- |
+| Check status  | `git status`              | Before & after changes |
+| Fetch updates | `git fetch upstream`      | Check upstream updates |
+| Sync main     | `git merge upstream/main` | Update local main      |
+| Push code     | `git push`                | Upload commits         |
+
+---
+
+## 💡 Pro Tips
+
+* **Deployment**: Use **GitHub Pages** (Settings → Pages) to host your dashboard for free.
+* **Stay Updated**: Regularly sync your fork with upstream.
+* **Extension Ideas**:
+
+  * Save tasks with `localStorage`
+  * Browser notifications
+  * Progress charts & analytics
+
+---
+
+Built for students, by students. **Build your version. 🚀**
