@@ -1,0 +1,36 @@
+/* ================================================================
+   index.css — Khusus Landing Page (Home)
+================================================================ */
+
+/* ── Reset & Base ─────────────────────────────────────────── */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.body-home {
+    font-family: 'Segoe UI', system-ui, Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #0e1322; /* Mengembalikan warna gelap agar gambar transparan terlihat elegan */
+    color: #e2e8f0;
+}
+
+/* Bottom Bar Navigasi Landing Page */
+.bottom-bar {
+    margin-bottom: 40px;
+    align-self: center;
+    width: fit-content;
+    padding: 15px 50px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 30px;
+    display: flex;
+    gap: 50px;
+    justify-content: center;
+}
+.bottom-bar a {
+    color: white;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
