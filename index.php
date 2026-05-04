@@ -17,7 +17,7 @@ if (isset($_SESSION['is_login']) && $_SESSION['is_login'] === true) {
     <style>
         .student-section {
             min-height: 100vh;
-            background: white;
+            background: #ffffff;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -89,6 +89,11 @@ if (isset($_SESSION['is_login']) && $_SESSION['is_login'] === true) {
             </p>
         </div>
 
+         <div class="student-image">
+            <img src="https://img.freepik.com/premium-vector/education-achievement-with-books-trophy-graduation-ceremony-concept_1326094-11473.jpg" alt="Student.IO">
+        </div> 
+    </section>
+
     <section id="student" class="student-section">    
         <div class="student-text">
             <h2>Kenapa Harus Student.IO?</h2>
@@ -98,6 +103,39 @@ if (isset($_SESSION['is_login']) && $_SESSION['is_login'] === true) {
                 memudahkan kamu untuk tetap fokus dan produktif. Jadikan
                 pengalaman belajar kamu lebih menyenangkan dan teratur dengan
                 Student.IO!
+            </p>
+        </div>
+
+        <div class="student-image">
+            <img src="https://img.freepik.com/premium-vector/education-achievement-with-books-trophy-graduation-ceremony-concept_1326094-11473.jpg" alt="Student.IO">
+        </div>
+    </section>
+
+    <section id="student" class="student-section">
+        <div class="student-text">
+            <h2>Fitur Student.IO</h2>
+            <p>
+                - Pengingat Tugas: Dapatkan notifikasi untuk setiap tugas yang
+                mendekati tenggat waktu. <br>
+                - Kalender Jadwal: Lihat semua jadwal kuliah, ujian, dan tugas
+                dalam satu kalender yang mudah digunakan. <br>
+                - Integrasi Platform: Sinkronisasi dengan Google Calendar, Microsoft
+                Outlook, dan platform pembelajaran lainnya untuk kemudahan akses.
+            </p>
+        </div>
+
+        <div class="student-image">
+            <img src="https://img.freepik.com/premium-vector/education-achievement-with-books-trophy-graduation-ceremony-concept_1326094-11473.jpg" alt="Student.IO">
+        </div>
+    </section>
+
+    <section id="student" class="student-section">
+        <div class="student-text">
+            <h2>Ulasan Pengguna</h2>
+            <p>
+                "Student.IO benar-benar membantu saya mengatur semua tugas dan jadwal kuliah saya. Saya tidak pernah melewatkan tenggat waktu lagi!" - Rina, Mahasiswa<br>
+                "Fitur pengingat tugas sangat berguna. Saya bisa fokus belajar tanpa khawatir lupa dengan tugas yang harus dikerjakan." - Budi, Pelajar SMA<br>
+                "Integrasi dengan Google Calendar membuat semuanya lebih mudah. Saya bisa melihat semua jadwal saya dalam satu tempat." - Sari, Mahasiswa
             </p>
         </div>
 
