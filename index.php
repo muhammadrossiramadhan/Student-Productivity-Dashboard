@@ -56,10 +56,10 @@ if (isset($_SESSION['is_login']) && $_SESSION['is_login'] === true) {
     <div class="hero-section">
         
         <nav class="top-nav">
-            <a href="#student" class="btn-info">Apa itu Student.IO</a>
-            <a href="#student" class="btn-info">Kenapa Harus Student.IO</a>
-            <a href="#student" class="btn-info">Fitur</a>
-            <a href="#student" class="btn-info">Ulasan</a>
+            <a href="#apa itu" class="btn-info">Apa itu Student.IO</a>
+            <a href="#kenapa-harus" class="btn-info">Kenapa Harus Student.IO</a>
+            <a href="#fitur" class="btn-info">Fitur</a>
+            <a href="#ulasan" class="btn-info">Ulasan</a>
         </nav>
 
         <main class="hero-content">
@@ -78,7 +78,7 @@ if (isset($_SESSION['is_login']) && $_SESSION['is_login'] === true) {
 
     </div>
 
-    <section id="student" class="student-section">
+    <section id="apa itu" class="student-section">
         <div class="student-text">
             <h2>Apa itu Student.IO?</h2>
             <p>
@@ -94,7 +94,7 @@ if (isset($_SESSION['is_login']) && $_SESSION['is_login'] === true) {
         </div> 
     </section>
 
-    <section id="student" class="student-section">    
+    <section id="kenapa-harus" class="student-section">    
         <div class="student-text">
             <h2>Kenapa Harus Student.IO?</h2>
             <p>
@@ -111,7 +111,7 @@ if (isset($_SESSION['is_login']) && $_SESSION['is_login'] === true) {
         </div>
     </section>
 
-    <section id="student" class="student-section">
+    <section id="fitur" class="student-section">
         <div class="student-text">
             <h2>Fitur Student.IO</h2>
             <p>
@@ -129,7 +129,7 @@ if (isset($_SESSION['is_login']) && $_SESSION['is_login'] === true) {
         </div>
     </section>
 
-    <section id="student" class="student-section">
+    <section id="ulasan" class="student-section">
         <div class="student-text">
             <h2>Ulasan Pengguna</h2>
             <p>
