@@ -57,6 +57,9 @@ if (isset($_SESSION['is_login']) && $_SESSION['is_login'] === true) {
         
         <nav class="top-nav">
             <a href="#student" class="btn-info">Apa itu Student.IO</a>
+            <a href="#student" class="btn-info">Kenapa Harus Student.IO</a>
+            <a href="#student" class="btn-info">Fitur</a>
+            <a href="#student" class="btn-info">Ulasan</a>
         </nav>
 
         <main class="hero-content">
@@ -83,6 +86,18 @@ if (isset($_SESSION['is_login']) && $_SESSION['is_login'] === true) {
                 mengatur tugas, jadwal, dan aktivitas belajar dalam satu tempat.
                 Dengan Student.IO, semua tugas menjadi lebih terorganisir dan
                 mudah dipantau.
+            </p>
+        </div>
+
+    <section id="student" class="student-section">    
+        <div class="student-text">
+            <h2>Kenapa Harus Student.IO?</h2>
+            <p>
+                Dengan fitur-fitur seperti pengingat tugas, kalender jadwal, dan
+                integrasi dengan berbagai platform pembelajaran, Student.IO
+                memudahkan kamu untuk tetap fokus dan produktif. Jadikan
+                pengalaman belajar kamu lebih menyenangkan dan teratur dengan
+                Student.IO!
             </p>
         </div>
 
