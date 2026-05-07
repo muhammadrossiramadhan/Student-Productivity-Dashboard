@@ -10,27 +10,20 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    /**
-     * Kolom yang boleh diisi secara massal (mass assignable).
-     */
+    // kolom yang boleh diisi
     protected $fillable = [
         'username',
         'password',
         'panggilan',
     ];
 
-    /**
-     * Kolom yang harus disembunyikan saat diubah menjadi array/JSON.
-     */
+    // sembunyikan password dari response JSON
     protected $hidden = [
         'password',
     ];
 
-    /**
-     * Mendefinisikan relasi: Satu User bisa memiliki banyak Task.
-     */
-    public function tasks()
-    {
+    // relasi: satu user punya banyak task
+    public function tasks() {
         return $this->hasMany(Task::class);
     }
 }

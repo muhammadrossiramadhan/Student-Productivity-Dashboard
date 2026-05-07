@@ -9,10 +9,7 @@ class Task extends Model
 {
     use HasFactory;
 
-    /**
-     * Kolom yang boleh diisi secara massal.
-     * Ini adalah semua kolom dari tabel tasks kita.
-     */
+    // kolom yang boleh diisi
     protected $fillable = [
         'user_id',
         'nama_tugas',
@@ -25,11 +22,8 @@ class Task extends Model
         'poin_konsistensi',
     ];
 
-    /**
-     * Mendefinisikan relasi: Satu Task dimiliki oleh satu User.
-     */
-    public function user()
-    {
+    // relasi: task milik satu user
+    public function user() {
         return $this->belongsTo(User::class);
     }
 }

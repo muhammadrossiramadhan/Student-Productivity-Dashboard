@@ -9,11 +9,12 @@ use Carbon\Carbon;
 
 class TaskController extends Controller
 {
+    // halaman utama dashboard
     public function index(Request $request) {
         $user = Auth::user();
         $search = $request->search;
 
-        // 1. Ambil data tugas aktif (Belum Selesai) beserta logika pencarian
+        // ambil tugas yang belum selesai, filter kalau ada pencarian
         $query = $user->tasks()->where('status', 'Belum Selesai');
         if ($search) {
             $query->where(function($q) use ($search) {
@@ -23,17 +24,17 @@ class TaskController extends Controller
         }
         $activeTasks = $query->orderBy('deadline', 'asc')->orderBy('waktu', 'asc')->get();
 
-        // Tambahkan label status_waktu (Mendatang / Terlambat)
+        // cek apakah masing-masing tugas udah lewat deadline
         foreach ($activeTasks as $task) {
             $datetime = Carbon::parse($task->deadline . ' ' . $task->waktu);
             $task->status_waktu = $datetime->isPast() ? 'Terlambat' : 'Mendatang';
         }
 
-        // 2. Ambil 5 riwayat terakhir
+        // ambil 5 riwayat tugas yang udah selesai
         $historyTasks = $user->tasks()->where('status', 'Selesai')
-                             ->orderBy('selesai_at', 'desc')->take(5)->get();
+            ->orderBy('selesai_at', 'desc')->take(5)->get();
 
-        // 3. Ambil data grafik performa (7 hari terakhir)
+        // data grafik 7 hari terakhir
         $labels = [];
         $data_poin = [];
         for ($i = 6; $i >= 0; $i--) {
@@ -47,48 +48,53 @@ class TaskController extends Controller
         return view('dashboard', compact('activeTasks', 'historyTasks', 'chartData'));
     }
 
+    // simpan tugas baru
     public function store(Request $request) {
         $request->validate([
             'nama_tugas' => 'required',
-            'deadline' => 'required|date',
-            'waktu' => 'required',
-            'prioritas' => 'required|in:Tinggi,Sedang,Rendah'
+            'deadline'   => 'required|date',
+            'waktu'      => 'required',
+            'prioritas'  => 'required|in:Tinggi,Sedang,Rendah'
         ]);
 
         Auth::user()->tasks()->create($request->all());
-        return back()->with('success', 'Tugas berhasil ditambahkan!');
+        return back();
     }
 
+    // update tugas
     public function update(Request $request, Task $task) {
         if ($task->user_id !== Auth::id()) abort(403);
         $task->update($request->all());
-        return back()->with('success', 'Tugas berhasil diperbarui!');
+        return back();
     }
 
+    // tandai tugas selesai dan hitung poin
     public function markAsDone(Task $task) {
         if ($task->user_id !== Auth::id()) abort(403);
 
         $tenggat = Carbon::parse($task->deadline . ' ' . $task->waktu);
         $skrg = Carbon::now();
-        
+
+        // poin lebih besar kalau tepat waktu
         $is_ontime = $skrg->lte($tenggat);
-        $poin = $is_ontime 
+        $poin = $is_ontime
             ? ($task->prioritas === 'Tinggi' ? 15 : ($task->prioritas === 'Sedang' ? 10 : 5))
-            : ($task->prioritas === 'Tinggi' ? 5 : ($task->prioritas === 'Sedang' ? 3 : 1));
+            : ($task->prioritas === 'Tinggi' ? 5  : ($task->prioritas === 'Sedang' ? 3  : 1));
 
         $task->update(['status' => 'Selesai', 'selesai_at' => $skrg, 'poin_konsistensi' => $poin]);
         return back()->with('success', 'Tugas diselesaikan! +' . $poin . ' Poin');
     }
 
+    // hapus satu tugas
     public function destroy(Task $task) {
         if ($task->user_id !== Auth::id()) abort(403);
         $task->delete();
-        return back()->with('success', 'Tugas berhasil dihapus!');
+        return back();
     }
 
+    // hapus semua riwayat tugas selesai
     public function clearHistory() {
-        // Menghapus semua tugas milik user yang statusnya sudah 'Selesai'
         Auth::user()->tasks()->where('status', 'Selesai')->delete();
-        return back()->with('success', 'Semua riwayat tugas berhasil dibersihkan!');
+        return back();
     }
 }
