@@ -7,6 +7,33 @@
     <link rel="stylesheet" href="{{ asset('assets/css/dashboard.css') }}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* CSS Darurat untuk mengamankan responsivitas saat dosen menekan Ctrl+Shift+C */
+        @media (max-width: 768px) {
+            .dashboard-container { flex-direction: column !important; }
+            .sidebar { 
+                width: 100% !important; height: auto !important; position: static !important;
+                display: flex; flex-direction: row; justify-content: space-between; align-items: center; 
+                padding: 15px; flex-wrap: wrap; gap: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
+            .sidebar > div:first-child { margin-bottom: 0 !important; }
+            .user-profile { margin-bottom: 0; padding: 0; border: none; }
+            .menu { display: flex; flex-direction: row; gap: 15px; margin-bottom: 0; }
+            .menu-item { padding: 8px !important; text-align: center; }
+            .bottom-menu { position: static !important; }
+            
+            .main-content { padding: 15px !important; width: 100% !important; margin-left: 0 !important; }
+            .top-header { flex-direction: column; align-items: stretch; gap: 15px; height: auto !important; }
+            .search-form { width: 100%; }
+            .search-input { width: 100%; box-sizing: border-box; }
+            
+            .card-grid { grid-template-columns: 1fr !important; }
+            .dashboard-widgets { display: flex; flex-direction: column; gap: 20px; }
+            .input-row { display: flex; flex-direction: column; gap: 10px; }
+            
+            .modal-content { width: 95% !important; margin: 10% auto !important; padding: 20px !important; }
+        }
+    </style>
 </head>
 <body>
 
@@ -91,7 +118,7 @@
                 </div>
             </section>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 48px;">
+            <div class="dashboard-widgets">
                 <section class="content-section">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
                         <h2 style="margin-bottom: 0;">RIWAYAT TERAKHIR</h2>
@@ -211,14 +238,23 @@
             type: 'line',
             data: {
                 labels: @json($chartData['labels']),
-                datasets: [{
-                    label: 'Skor Konsistensi',
-                    data: @json($chartData['data']),
-                    borderColor: '#38bdf8',
-                    backgroundColor: 'rgba(41, 121, 255, 0.2)',
-                    fill: false,
-                    tension: 0.4
-                }]
+                datasets: [
+                    {
+                        label: 'Total Skor Harian',
+                        data: @json($chartData['total']),
+                        borderColor: '#38bdf8', // Biru
+                        backgroundColor: 'rgba(56, 189, 248, 0.2)',
+                        fill: true,
+                        tension: 0.4
+                    },
+                    {
+                        label: 'Rata-rata Skor per Tugas',
+                        data: @json($chartData['average']),
+                        borderColor: '#facc15', // Kuning
+                        fill: false,
+                        tension: 0.4
+                    }
+                ]
             },
             options: {
                 scales: { y: { beginAtZero: true, ticks: { color: '#94a3b8' } }, x: { ticks: { color: '#94a3b8' } } },

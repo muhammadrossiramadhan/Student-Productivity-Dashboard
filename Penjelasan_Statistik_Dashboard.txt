@@ -1,0 +1,51 @@
+=======================================================
+CATATAN PRESENTASI: STATISTIK & ANALITIK STUDENT.IO
+=======================================================
+
+1. KONSEP DASAR ANALITIK & LOGIKA POIN
+-------------------------------------------------------
+Bagaimana sistem memberikan skor kepada mahasiswa?
+Penilaian (Poin Konsistensi) didasarkan pada 2 variabel utama:
+- Ketepatan Waktu (Time Management): Apakah tugas diselesaikan sebelum/tepat waktu deadline?
+- Tingkat Prioritas: Apakah tugas tersebut Tinggi, Sedang, atau Rendah?
+
+Logika Poin:
+- TEPAT WAKTU: Prioritas Tinggi (15 Poin), Sedang (10 Poin), Rendah (3 Poin).
+- TERLAMBAT: Prioritas Tinggi (7 Poin), Sedang (5 Poin), Rendah (0 Poin).
+Hukuman/diskon poin diberikan jika mahasiswa melewati batas tenggat waktu.
+
+2. CLEAN CODE: MENGAPA MENGGUNAKAN IF-ELSE?
+-------------------------------------------------------
+Jika dosen bertanya mengapa tidak menggunakan logika satu baris (Ternary Operator) yang bertumpuk:
+"Saya menggunakan if-else biasa dibandingkan nested ternary (ternary bersarang) untuk menerapkan prinsip Clean Code. If-else jauh lebih mudah dibaca (readable) oleh programmer lain dan lebih mudah dikembangkan (maintainable) jika ke depannya ada penambahan skala prioritas."
+
+3. BAGAIMANA GRAFIK CHART.JS BEKERJA?
+-------------------------------------------------------
+Bagaimana data dari database bisa menjadi gambar grafik?
+- Sisi Backend (Laravel): 
+  Controller melakukan perulangan (looping) mundur untuk 7 hari terakhir. Setiap harinya, sistem melakukan query ke tabel 'tasks' untuk menghitung jumlah total poin dan rata-rata poin harian, lalu menyimpannya dalam bentuk Array PHP.
+- Sisi Frontend (Blade & JS): 
+  Array PHP tersebut dikirim ke View Blade dan diubah menjadi format JavaScript menggunakan direktif @json(). Chart.js kemudian membaca data JS tersebut (Sumbu X untuk tanggal, Sumbu Y untuk nilai poin) untuk menggambar garis grafik secara real-time.
+
+4. APAKAH GRAFIK BERUBAH MINGGU PER MINGGU?
+-------------------------------------------------------
+Grafik TIDAK menampilkan agregasi statis "Minggu 1, Minggu 2", melainkan menampilkan "Rolling 7-Day Window" (Jendela 7 Hari Terakhir bergulir).
+Artinya, statistik akan berubah setiap harinya. Setiap hari berganti, data dari 8 hari yang lalu akan terhapus dari grafik, dan data hari ini akan ditambahkan. Ini adalah cara terbaik untuk melacak tren produktivitas dan konsistensi jangka pendek secara dinamis.
+
+5. PERBEDAAN TOTAL SKOR HARIAN VS RATA-RATA SKOR
+-------------------------------------------------------
+- Garis Biru (Total Skor): Akumulasi poin. Jika hari ini selesai 3 tugas dengan poin 15, 10, 3, maka titik grafiknya ada di angka 28.
+- Garis Kuning (Rata-rata): Nilai Total dibagi jumlah tugas. 28 / 3 = 9.33. Garis ini menunjukkan efisiensi performa per tugas di hari tersebut.
+Perhitungan grafik ini murni untuk visualisasi dan TIDAK memengaruhi poin tetap yang sudah tersimpan di database.
+
+6. KEAMANAN DARI SQL INJECTION
+-------------------------------------------------------
+Jika dosen menguji form pencarian atau input tugas:
+"Aplikasi ini sangat aman dari SQL Injection karena menggunakan Eloquent ORM bawaan Laravel. Laravel otomatis menggunakan mekanisme PDO Parameter Binding. Artinya, inputan user seberbahaya apa pun (seperti tanda kutip atau DROP TABLE) tidak akan dieksekusi sebagai perintah database, melainkan murni diperlakukan sebagai teks (string) biasa."
+
+=======================================================
+TIPS PRESENTASI:
+- Jawab dengan tenang, pelan, dan tegas.
+- Jika menjelaskan kode, langsung tunjuk baris kodenya.
+- Selalu kaitkan jawaban teknis dengan tujuan bisnis aplikasi (membantu produktivitas mahasiswa).
+=======================================================

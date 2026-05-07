@@ -22,10 +22,11 @@
     @endif
 
     <form method="POST" action="{{ url('/register') }}">
-        @csrf
+            @csrf
         <div class="auth-input-field">
             <i class="fas fa-user"></i>
             <input type="text" name="username" placeholder="Username" value="{{ old('username') }}" required autofocus>
+            @error('username') <span style="color: #fca5a5; font-size: 12px; margin-top: 4px; display: block;">{{ $message }}</span> @enderror
         </div>
 
         <div class="auth-input-field">
@@ -34,8 +35,15 @@
         </div>
 
         <div class="auth-input-field">
+            <i class="fas fa-envelope"></i>
+            <input type="email" name="email" placeholder="Email" value="{{ old('email') }}" required>
+            @error('email') <span style="color: #fca5a5; font-size: 12px; margin-top: 4px; display: block;">{{ $message }}</span> @enderror
+        </div>
+
+        <div class="auth-input-field">
             <i class="fas fa-lock"></i>
             <input type="password" name="password" placeholder="Password (Min. 6 karakter)" required>
+            @error('password') <span style="color: #fca5a5; font-size: 12px; margin-top: 4px; display: block;">{{ $message }}</span> @enderror
         </div>
 
         <button type="submit" class="auth-btn-primary">Sign Up</button>

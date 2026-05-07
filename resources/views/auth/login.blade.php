@@ -28,15 +28,17 @@
         <div class="auth-input-field">
             <i class="fas fa-user"></i>
             <input type="text" name="username" placeholder="Username" value="{{ old('username') }}" required autofocus>
+            @error('username') <span style="color: #fca5a5; font-size: 12px; margin-top: 4px; display: block;">{{ $message }}</span> @enderror
         </div>
 
         <div class="auth-input-field">
             <i class="fas fa-lock"></i>
             <input type="password" name="password" placeholder="Password" required>
+            @error('password') <span style="color: #fca5a5; font-size: 12px; margin-top: 4px; display: block;">{{ $message }}</span> @enderror
         </div>
 
         <div style="text-align: right; margin-bottom: 15px; font-size: 13px;">
-            <a href="#" style="color: #4c8dff; text-decoration: none;">Lupa Password?</a>
+            <a href="{{ route('password.request') }}" style="color: #4c8dff; text-decoration: none;">Lupa Password?</a>
         </div>
 
         <button type="submit" class="auth-btn-primary">Login</button>

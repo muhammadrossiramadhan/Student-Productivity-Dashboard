@@ -36,13 +36,19 @@ class TaskController extends Controller
         // 3. Ambil data grafik performa (7 hari terakhir)
         $labels = [];
         $data_poin = [];
+        $data_avg = []; // Array baru untuk rata-rata
         for ($i = 6; $i >= 0; $i--) {
             $tgl = date('Y-m-d', strtotime("-$i days"));
             $labels[] = date('d M', strtotime($tgl));
-            $poin = $user->tasks()->whereDate('selesai_at', $tgl)->sum('poin_konsistensi');
-            $data_poin[] = (int) $poin;
+
+            $tasksOnDate = $user->tasks()->whereDate('selesai_at', $tgl);
+            $totalPoin = $tasksOnDate->sum('poin_konsistensi');
+            $jumlahTugas = $tasksOnDate->count();
+
+            $data_poin[] = (int) $totalPoin;
+            $data_avg[] = ($jumlahTugas > 0) ? round($totalPoin / $jumlahTugas, 2) : 0;
         }
-        $chartData = ['labels' => $labels, 'data' => $data_poin];
+        $chartData = ['labels' => $labels, 'total' => $data_poin, 'average' => $data_avg];
 
         return view('dashboard', compact('activeTasks', 'historyTasks', 'chartData'));
     }
@@ -72,9 +78,16 @@ class TaskController extends Controller
         $skrg = Carbon::now();
         
         $is_ontime = $skrg->lte($tenggat);
-        $poin = $is_ontime 
-            ? ($task->prioritas === 'Tinggi' ? 15 : ($task->prioritas === 'Sedang' ? 10 : 5))
-            : ($task->prioritas === 'Tinggi' ? 5 : ($task->prioritas === 'Sedang' ? 3 : 1));
+        
+        if ($is_ontime) {
+            if ($task->prioritas === 'Tinggi') $poin = 15;
+            elseif ($task->prioritas === 'Sedang') $poin = 10;
+            else $poin = 3; // Prioritas Rendah
+        } else {
+            if ($task->prioritas === 'Tinggi') $poin = 7;
+            elseif ($task->prioritas === 'Sedang') $poin = 5;
+            else $poin = 0; // Prioritas Rendah
+        }
 
         $task->update(['status' => 'Selesai', 'selesai_at' => $skrg, 'poin_konsistensi' => $poin]);
         return back()->with('success', 'Tugas diselesaikan! +' . $poin . ' Poin');
