@@ -1,61 +1,76 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard — Student Productivity</title>
+    <title>Dashboard - Student Productivity</title>
     <link rel="stylesheet" href="{{ asset('assets/css/dashboard.css') }}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
 
+    {{-- notifikasi sukses --}}
     @if (session('success'))
         <div id="toastNotif" class="toast-notif">
-            ✅ {{ session('success') }}
+            {{ session('success') }}
         </div>
     @endif
 
     <div class="dashboard-container">
         <aside class="sidebar">
-            <!-- Logo Branding (Klik untuk ke Landing Page) -->
-            <div style="margin-bottom: 32px;">
-                <a href="{{ url('/') }}" style="color: var(--primary); font-size: 1.5rem; font-weight: 800; text-decoration: none; letter-spacing: 1px; display: flex; align-items: center; gap: 8px;">
-                    <i class="fas fa-graduation-cap"></i> Student.io
+
+            {{-- logo --}}
+            <div style="margin-bottom: 30px;">
+                <a href="{{ url('/') }}"
+                    style="color: white; font-size: 1.4rem; font-weight: 800; text-decoration: none; display: flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-graduation-cap"></i> STUDENT.IO
                 </a>
             </div>
 
+            {{-- info user --}}
             <div class="user-profile">
                 <div class="avatar"><i class="fas fa-user"></i></div>
                 <span class="user-name">{{ auth()->user()->panggilan ?? auth()->user()->username }}</span>
             </div>
 
             <nav class="menu">
-                <a href="{{ url('/dashboard') }}" class="menu-item active"><i class="fas fa-home"></i> Beranda</a>
+                <a href="{{ url('/dashboard') }}" class="menu-item active">
+                    <i class="fas fa-home"></i> Beranda
+                </a>
             </nav>
 
             <div class="bottom-menu">
                 <form method="POST" action="{{ url('/logout') }}">
                     @csrf
-                    <button type="submit" class="menu-item text-danger" style="background:none; border:none; width:100%; text-align:left; cursor:pointer;">
+                    <button type="submit" class="menu-item text-danger"
+                        style="background: none; border: none; width: 100%; text-align: left; cursor: pointer;">
                         <i class="fas fa-sign-out-alt"></i> Logout
                     </button>
                 </form>
             </div>
+
         </aside>
 
         <main class="main-content">
             <header class="top-header">
-                <h1><i class="fas fa-home"></i> BERANDA </h1>
-                
+                <h1><i class="fas fa-home"></i> BERANDA</h1>
+
+                {{-- form pencarian --}}
                 <form method="GET" action="{{ url('/dashboard') }}" class="search-form">
-                    <input type="text" name="search" class="search-input" placeholder="🔍 Cari tugas atau deskripsi..." value="{{ request('search') }}">
+                    <input type="text" name="search" class="search-input" placeholder="Cari Tugas"
+                        value="{{ request('search') }}">
                     <button type="submit" class="btn-primary">Cari</button>
                 </form>
 
-                <button class="btn-primary" onclick="openAddModal()"><i class="fas fa-plus"></i> Tambah Tugas</button>
+                <button class="btn-primary" onclick="openAddModal()">
+                    <i class="fas fa-plus"></i> Tambah Tugas
+                </button>
             </header>
 
+            {{-- daftar tugas aktif --}}
             <section class="content-section">
                 <h2>TUGAS AKTIF</h2>
                 <div class="card-grid">
@@ -64,69 +79,100 @@
                             <div class="card-info">
                                 <div>
                                     <h3>{{ $task->nama_tugas }}</h3>
-                                    <p><i class="fas fa-clock"></i> {{ date('d M Y', strtotime($task->deadline)) }}, Pukul {{ $task->waktu }}</p>
-                                    
-                                    @php $isOverdue = ($task->status_waktu === 'Terlambat'); @endphp
-                                    <span class="priority-badge {{ $isOverdue ? 'tinggi' : strtolower($task->prioritas) }}">
-                                        {{ $isOverdue ? 'Terlambat' : $task->prioritas }}
+                                    <p>
+                                        <i class="fas fa-clock"></i>
+                                        {{ date('d M Y', strtotime($task->deadline)) }}, Pukul {{ $task->waktu }}
+                                    </p>
+
+                                    @php
+                                        $terlambat = ($task->status_waktu === 'Terlambat');
+                                    @endphp
+
+                                    <span class="priority-badge {{ $terlambat ? 'tinggi' : strtolower($task->prioritas) }}">
+                                        {{ $terlambat ? 'Terlambat' : $task->prioritas }}
                                     </span>
                                 </div>
                             </div>
+
                             <div class="card-actions">
-                                <form method="POST" action="{{ url('/tasks/'.$task->id.'/done') }}" onclick="event.stopPropagation();">
+                                {{-- tombol selesaikan --}}
+                                <form method="POST" action="{{ url('/tasks/' . $task->id . '/done') }}"
+                                    onclick="event.stopPropagation();">
                                     @csrf
                                     @method('PATCH')
-                                    <button type="submit" class="btn-success"><i class="fas fa-check"></i> Selesai</button>
+                                    <button type="submit" class="btn-success">
+                                        <i class="fas fa-check"></i> Selesai
+                                    </button>
                                 </form>
-                                <form method="POST" action="{{ url('/tasks/'.$task->id) }}" onclick="event.stopPropagation();" onsubmit="return confirm('Apakah kamu yakin ingin menghapus tugas ini?');">
+
+                                {{-- tombol hapus --}}
+                                <form method="POST" action="{{ url('/tasks/' . $task->id) }}"
+                                    onclick="event.stopPropagation();" onsubmit="return confirm('Hapus tugas ini?');">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn-danger-sm"><i class="fas fa-trash"></i> Hapus</button>
+                                    <button type="submit" class="btn-danger-sm">
+                                        <i class="fas fa-trash"></i> Hapus
+                                    </button>
                                 </form>
                             </div>
                         </div>
                     @empty
-                        <p style="color: var(--text-muted);"><i class="fas fa-glass-cheers"></i> Yeay! Belum Ada Tugas.</p>
+                        <p style="color: var(--text-muted);">Belum Ada Tugas.</p>
                     @endforelse
                 </div>
             </section>
 
+            {{-- bagian bawah: riwayat + grafik --}}
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 48px;">
+
+                {{-- riwayat tugas selesai --}}
                 <section class="content-section">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
                         <h2 style="margin-bottom: 0;">RIWAYAT TERAKHIR</h2>
-                        @if($historyTasks->count() > 0)
-                        <form method="POST" action="{{ url('/tasks/clear-history') }}" onsubmit="return confirm('Yakin ingin menghapus semua riwayat tugas?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn-danger-sm" style="padding: 6px 12px; font-size: 0.75rem;"><i class="fas fa-trash-alt"></i> Bersihkan</button>
-                        </form>
+
+                        @if ($historyTasks->count() > 0)
+                            <form method="POST" action="{{ url('/tasks/clear-history') }}"
+                                onsubmit="return confirm('Yakin mau hapus semua riwayat?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn-danger-sm" style="padding: 6px 12px; font-size: 0.75rem;">
+                                    <i class="fas fa-trash-alt"></i> Bersihkan
+                                </button>
+                            </form>
                         @endif
                     </div>
+
                     <div class="card-grid" style="grid-template-columns: 1fr;">
                         @forelse ($historyTasks as $h)
                             <div class="card" style="cursor: default;">
-                                <div class="card-info" style="display: flex; justify-content: space-between; align-items: center;">
-                                    <h3 style="margin:0; font-size: 0.95rem; text-decoration: line-through; color: var(--text-muted);">{{ $h->nama_tugas }}</h3>
+                                <div class="card-info"
+                                    style="display: flex; justify-content: space-between; align-items: center;">
+                                    <h3
+                                        style="margin: 0; font-size: 0.95rem; text-decoration: line-through; color: var(--text-muted);">
+                                        {{ $h->nama_tugas }}
+                                    </h3>
                                     <span class="priority-badge rendah">+{{ $h->poin_konsistensi }} Poin</span>
                                 </div>
                             </div>
                         @empty
-                            <p style="color: var(--text-muted);">Belum ada riwayat tugas selesai.</p>
                         @endforelse
                     </div>
                 </section>
 
+                {{-- grafik konsistensi 7 hari --}}
                 <section class="content-section">
                     <h2>GRAFIK KONSISTENSI</h2>
                     <div class="card" style="cursor: default;">
                         <canvas id="performaChart"></canvas>
                     </div>
                 </section>
+
             </div>
         </main>
     </div>
 
+    {{-- modal tambah tugas --}}
     <div id="addModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeAddModal()" title="Tutup">&times;</span>
@@ -135,15 +181,12 @@
                 @csrf
                 <div class="input-group">
                     <label for="judul">Nama Tugas</label>
-                    <input type="text" id="judul" name="nama_tugas" required placeholder="Contoh: Makalah Basis Data">
+                    <input type="text" id="judul" name="nama_tugas" required placeholder="Judul Tugas">
                 </div>
-                <div class="input-row">
-                    <div class="input-group">
-                        <label for="deadline">Tanggal Deadline</label>
+                <div class="input-group">
+                    <label for="deadline">Tanggal & Waktu Deadline</label>
+                    <div class="input-row">
                         <input type="date" id="deadline" name="deadline" required>
-                    </div>
-                    <div class="input-group">
-                        <label for="waktu">Waktu</label>
                         <input type="time" id="waktu" name="waktu" required>
                     </div>
                 </div>
@@ -156,14 +199,15 @@
                     </select>
                 </div>
                 <div class="input-group">
-                    <label for="deskripsi">Deskripsi Singkat</label>
-                    <textarea id="deskripsi" name="deskripsi" rows="2" placeholder="Catatan opsional..."></textarea>
+                    <label for="deskripsi">Deskripsi (opsional)</label>
+                    <textarea id="deskripsi" name="deskripsi" rows="2" placeholder="Deskripsi Tugas"></textarea>
                 </div>
-                <button type="submit" class="btn-primary" style="width: 100%; margin-top: 10px;">Simpan Tugas</button>
+                <button type="submit" class="btn-primary" style="width: 100%; margin-top: 10px;">Simpan</button>
             </form>
         </div>
     </div>
 
+    {{-- modal edit / detail tugas --}}
     <div id="editModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeEditModal()" title="Tutup">&times;</span>
@@ -195,43 +239,53 @@
                     </select>
                 </div>
                 <div class="input-group">
-                    <label>Deskripsi Singkat</label>
+                    <label>Deskripsi</label>
                     <textarea id="edit_deskripsi" name="deskripsi" rows="2"></textarea>
                 </div>
-                <button type="submit" class="btn-primary" style="width: 100%; margin-top: 10px;">Update Tugas</button>
+                <button type="submit" class="btn-primary" style="width: 100%; margin-top: 10px;">Update</button>
             </form>
         </div>
     </div>
 
     <script src="{{ asset('assets/js/dashboard.js') }}"></script>
     <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const ctx = document.getElementById('performaChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: @json($chartData['labels']),
-                datasets: [{
-                    label: 'Skor Konsistensi',
-                    data: @json($chartData['data']),
-                    borderColor: '#38bdf8',
-                    backgroundColor: 'rgba(41, 121, 255, 0.2)',
-                    fill: false,
-                    tension: 0.4
-                }]
-            },
-            options: {
-                scales: { y: { beginAtZero: true, ticks: { color: '#94a3b8' } }, x: { ticks: { color: '#94a3b8' } } },
-                plugins: { legend: { labels: { color: '#e2e8f0' } } }
+        document.addEventListener("DOMContentLoaded", function () {
+
+            // bikin grafik konsistensi
+            var ctx = document.getElementById('performaChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: @json($chartData['labels']),
+                    datasets: [{
+                        label: 'SKOR',
+                        data: @json($chartData['data']),
+                        borderColor: '#38bdf8',
+                        backgroundColor: 'rgba(41, 121, 255, 0.2)',
+                        fill: false,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    animation: false,
+                    scales: {
+                        y: { beginAtZero: true, ticks: { color: '#94a3b8' } },
+                        x: { ticks: { color: '#94a3b8' } }
+                    },
+                    plugins: {
+                        legend: { labels: { color: '#e2e8f0' } }
+                    }
+                }
+            });
+
+            // tampilin notifikasi kalau ada
+            var toast = document.getElementById('toastNotif');
+            if (toast) {
+                setTimeout(function () { toast.classList.add('show'); }, 100);
+                setTimeout(function () { toast.classList.remove('show'); }, 3000);
             }
         });
-
-        const toast = document.getElementById('toastNotif');
-        if (toast) {
-            setTimeout(() => toast.classList.add('show'), 100);
-            setTimeout(() => toast.classList.remove('show'), 3000);
-        }
-    });
     </script>
 </body>
+
 </html>

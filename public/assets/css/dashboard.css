@@ -1,25 +1,17 @@
-/* dashboard.css - UI by Yoshua */
+/* dashboard.css */
 
 :root {
-    /* Warna Utama (Primary Colors) */
     --bg-dark: #0e1322;
     --primary: #2979FF;
     --secondary: #b0c6ff;
-
-    /* Tipografi & Kontras */
     --text-main: #dee1f7;
     --text-muted: #c2c6d7;
-
-    /* Elemen UI */
     --surface: #161b2b;
-    --border: rgba(66, 70, 85, 0.2); /* Ghost Border 20% */
-
-    /* Status & Feedback */
+    --border: rgba(66, 70, 85, 0.2);
     --focus: #343949;
     --accent: #b0c6ff;
 }
 
-/* Reset Dasar */
 * {
     margin: 0;
     padding: 0;
@@ -33,14 +25,13 @@ body {
     overflow-x: hidden;
 }
 
-/* Layout Utama */
 .dashboard-container {
     display: grid;
     grid-template-columns: 260px 1fr;
     height: 100vh;
 }
 
-/* --- Pengaturan Sidebar --- */
+/* sidebar */
 .sidebar {
     background-color: var(--bg-dark);
     border-right: 1px solid var(--border);
@@ -105,14 +96,12 @@ body {
     border-radius: 0 8px 8px 0;
 }
 
-.bottom-menu {
-    margin-top: auto;
-}
+.bottom-menu { margin-top: auto; }
 
 .text-danger { color: #dc3545 !important; }
 .text-danger:hover { background-color: rgba(220, 53, 69, 0.1) !important; color: #ff6b7a !important; }
 
-/* --- Pengaturan Konten Utama --- */
+/* konten utama */
 .main-content {
     padding: 48px;
     overflow-y: auto;
@@ -132,7 +121,7 @@ body {
     white-space: nowrap;
 }
 
-/* --- Fitur Pencarian MVC --- */
+/* search bar */
 .search-form {
     display: flex;
     gap: 8px;
@@ -140,6 +129,7 @@ body {
     max-width: 400px;
     margin: 0 24px;
 }
+
 .search-input {
     width: 100%;
     padding: 10px 16px;
@@ -149,11 +139,13 @@ body {
     color: var(--text-main);
     font-size: 0.95rem;
 }
+
 .search-input:focus {
     outline: none;
     border-color: var(--primary);
 }
 
+/* tombol */
 .btn-primary {
     background-color: var(--primary);
     color: #fff;
@@ -170,7 +162,7 @@ body {
 }
 .btn-primary:hover { background-color: #1c66e6; }
 
-/* --- Pengaturan Kartu (Cards) --- */
+/* cards */
 .content-section h2 {
     font-size: 1rem;
     color: var(--text-muted);
@@ -190,15 +182,12 @@ body {
     border-radius: 16px;
     padding: 20px;
     cursor: pointer;
-    transition: border-color 0.2s ease;
 }
-.card:hover { border-color: var(--secondary); }
 
 .card-info { margin-bottom: 12px; }
 .card-info h3 { font-size: 1.05rem; color: var(--text-main); margin-bottom: 8px; }
 .card-info p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 4px; }
 
-/* --- Fitur Tombol MVC pada Card --- */
 .card-actions {
     display: flex;
     gap: 8px;
@@ -207,26 +196,39 @@ body {
     border-top: 1px solid var(--border);
     justify-content: flex-end;
 }
+
 .btn-success, .btn-danger-sm {
-    border: none; padding: 6px 12px; border-radius: 6px;
-    cursor: pointer; font-size: 0.8rem; font-weight: 600;
-    display: inline-flex; align-items: center; gap: 4px; color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: white;
 }
+
 .btn-success { background-color: #28a745; }
 .btn-success:hover { background-color: #218838; }
 .btn-danger-sm { background-color: #dc3545; }
 .btn-danger-sm:hover { background-color: #c82333; }
 
-/* Priority badges & dots */
+/* badge prioritas */
 .priority-badge {
-    display: inline-block; padding: 4px 10px; border-radius: 12px;
-    font-size: 0.75rem !important; font-weight: 600; margin-top: 8px;
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem !important;
+    font-weight: 600;
+    margin-top: 8px;
 }
 .priority-badge.tinggi { background-color: rgba(220,53,69,0.2); color: #ff6b7a; border: 1px solid #dc3545; }
 .priority-badge.sedang { background-color: rgba(255,193,7,0.2); color: #ffda6a; border: 1px solid #ffc107; }
 .priority-badge.rendah { background-color: rgba(40,167,69,0.2); color: #75b798; border: 1px solid #28a745; }
 
-/* --- Modals & Utilities Sama Seperti Code Asli Yoshua --- */
+/* modal */
 .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); align-items: center; justify-content: center; backdrop-filter: blur(4px); }
 .modal-content { background-color: var(--surface); padding: 32px; border-radius: 16px; width: 90%; max-width: 500px; position: relative; border: 1px solid var(--border); }
 .close { position: absolute; right: 24px; top: 20px; color: var(--text-muted); font-size: 28px; font-weight: bold; cursor: pointer; }
@@ -238,6 +240,6 @@ body {
 .input-group input:focus, .input-group select:focus, .input-group textarea:focus { outline: none; border-color: var(--primary); }
 .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 
-/* Flash Notifications */
+/* notifikasi bawah kanan */
 .toast-notif { position: fixed; bottom: 20px; right: 20px; background-color: #10b981; color: white; padding: 12px 24px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 9999; opacity: 0; transform: translateY(20px); transition: opacity 0.3s ease, transform 0.3s ease; }
 .toast-notif.show { opacity: 1; transform: translateY(0); }

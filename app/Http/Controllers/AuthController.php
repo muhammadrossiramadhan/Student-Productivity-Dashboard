@@ -19,7 +19,6 @@ class AuthController extends Controller
             'password' => 'required'
         ]);
 
-        // Auth::attempt otomatis mengecek username dan hash password di database
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             return redirect()->intended('/dashboard');
@@ -39,12 +38,12 @@ class AuthController extends Controller
         ]);
 
         $user = User::create([
-            'username' => $request->username,
-            'password' => Hash::make($request->password), // Password otomatis dienkripsi
+            'username'  => $request->username,
+            'password'  => Hash::make($request->password),
             'panggilan' => $request->panggilan ?: $request->username,
         ]);
 
-        Auth::login($user); // Langsung login setelah daftar
+        Auth::login($user);
         return redirect('/dashboard');
     }
 
