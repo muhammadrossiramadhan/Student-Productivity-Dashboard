@@ -115,9 +115,9 @@ if (isset($_SESSION['is_login']) && $_SESSION['is_login'] === true) {
         <div class="student-text">
             <h2>Fitur Student.IO</h2>
             <p>
-                - Pengingat Tugas: Dapatkan notifikasi untuk setiap tugas yang
+                - Pengingat Tugas: Notifikasi untuk setiap tugas yang
                 mendekati tenggat waktu. <br>
-                - Kalender Jadwal: Lihat semua jadwal kuliah, ujian, dan tugas
+                - Kalender Jadwal: Meihat semua jadwal kuliah, ujian, dan tugas
                 dalam satu kalender yang mudah digunakan. <br>
                 - Integrasi Platform: Sinkronisasi dengan Google Calendar, Microsoft
                 Outlook, dan platform pembelajaran lainnya untuk kemudahan akses.
