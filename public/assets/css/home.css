@@ -1,0 +1,319 @@
+/* globals */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #0e1322;
+    color: #c2c6d7;
+    overflow-x: hidden;
+}
+
+/* typography & utilities */
+.section-title {
+    text-align: center;
+    width: 100%;
+    font-size: 36px;
+    color: #dee1f7;
+    margin: 0 0 15px;
+    font-weight: 700;
+}
+
+.section-subtitle {
+    text-align: center;
+    color: #c2c6d7;
+    margin-bottom: 50px;
+    font-size: 18px;
+}
+
+.alt-bg {
+    background-color: #161b2b !important;
+    border-top: 1px solid rgba(66, 70, 85, 0.2);
+    border-bottom: 1px solid rgba(66, 70, 85, 0.2);
+}
+
+.btn-buat {
+    display: inline-block;
+    padding: 12px 40px;
+    background-color: transparent;
+    border: 2px solid white;
+    border-radius: 30px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: 0.3s; 
+    margin-top: 10px;
+}
+
+.btn-buat:hover {
+    background-color: white;
+    color: #1a1a2e;
+}
+
+/* navigation-header */
+.top-nav {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    padding: 30px 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1000;
+}
+
+.logo {
+    font-weight: 800;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    color: #dee1f7;
+    text-transform: uppercase;
+    z-index: 1001;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    transition: 0.3s;
+}
+
+.nav-links a:hover {
+    color: #2979FF;
+}
+
+.nav-auth {
+    display: flex;
+    align-items: center;
+}
+
+.hamburger {
+    display: none;
+    color: white;
+    font-size: 1.8rem;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+/* hero section*/
+.hero-section {
+    background-image: linear-gradient(rgba(10, 15, 30, 0.7), rgba(10, 15, 30, 0.7)), url('../img/Landing Page 01.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;
+    color: white;
+    position: relative;
+}
+
+.hero-content {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.hero-content h1 {
+    font-size: 3.2rem;
+    letter-spacing: 2px;
+    font-weight: 800;
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    max-width: 600px;
+    line-height: 1.6;
+}
+
+/* general section (apa itu & kenapa harus)*/
+.student-section {
+    min-height: 100vh;
+    background-color: #0e1322;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 50px 10%;
+    gap: 50px;
+}
+
+.screen-section {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #0e1322;
+}
+
+.student-text {
+    width: 50%;
+}
+
+.student-text h2 {
+    font-size: 40px;
+    margin-bottom: 20px;
+    color: #dee1f7;
+    font-weight: 700;
+}
+
+.student-text p {
+    font-size: 18px;
+    color: #c2c6d7;
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+.student-image {
+    width: 45%;
+    text-align: center;
+}
+
+.student-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    border: 1px solid rgba(66, 70, 85, 0.2);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    opacity: 0.9;
+    transition: 0.3s ease;
+}
+
+.student-image img:hover {
+    opacity: 1;
+    box-shadow: 0 15px 40px rgba(41, 121, 255, 0.15);
+    border-color: #424655;
+}
+
+/* cards grid (fitur & ulasan)*/
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    padding: 0 10%;
+    background-color: transparent;
+}
+
+.ui-card {
+    background: #161b2b;
+    padding: 30px;
+    border-radius: 12px;
+    border: 1px solid rgba(66, 70, 85, 0.4); 
+}
+
+.ui-card h3 {
+    color: #b0c6ff;
+    font-size: 20px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ui-card p {
+    font-size: 16px;
+    color: #c2c6d7;
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+
+.author-text {
+    margin-top: 20px !important;
+    font-size: 14px !important;
+    color: #b0c6ff !important;
+    font-weight: 600;
+}
+
+/* footer */
+.st-footer-copyright-only {
+    background-color: #0e1322;
+    border-top: 1px solid rgba(66, 70, 85, 0.2);
+    padding: 20px;
+    text-align: center;
+    font-family: sans-serif;
+}
+
+.st-footer-copyright-only p {
+    color: #c2c6d7;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.st-footer-copyright-only strong {
+    color: #dee1f7;
+}
+
+/* responsif */
+/* tablet */
+@media (max-width: 992px) {
+    .top-nav { padding: 20px 5%; }
+    .hamburger { display: block; }
+    
+    .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%; 
+        width: 300px;
+        height: 100vh;
+        background-color: #0e1322;
+        flex-direction: column;
+        justify-content: center;
+        gap: 30px;
+        transition: right 0.4s ease;
+        box-shadow: -5px 0 20px rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+    }
+    .nav-links.active { right: 0; }
+    
+    .hero-content h1 { font-size: 2.5rem; }
+    
+    .student-section {
+        flex-direction: column;
+        text-align: center;
+        padding: 60px 5%;
+        gap: 40px;
+    }
+    .student-section.alt-bg { flex-direction: column-reverse; }
+    .student-text, .student-image { width: 100%; }
+    .student-text h2 { font-size: 32px; }
+    .section-title { font-size: 30px; margin-top: 40px; }
+}
+
+/* mobile */
+@media (max-width: 768px) {
+    .nav-links { width: 100%; }
+    .btn-buat { padding: 10px 30px; font-size: 0.9rem; }
+    
+    .hero-content { padding: 0 20px; }
+    .hero-content h1 { font-size: 2rem; letter-spacing: 1px; }
+    .hero-content p { font-size: 1rem; }
+    
+    .student-text h2 { font-size: 26px; }
+    .student-text p { font-size: 16px; }
+    .section-title { font-size: 26px; }
+    .section-subtitle { font-size: 16px; margin-bottom: 30px; }
+    
+    .feature-grid {
+        padding: 0 5%;
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    .ui-card { padding: 20px; }
+}
