@@ -52,7 +52,7 @@
                 <button type="submit" class="btn-primary">Cari</button>
             </form>
 
-            <button class="btn-primary" onclick="openAddModal()">
+            <button class="btn-primary" id="btnAddModal">
                 <i class="fas fa-plus"></i> Tambah Tugas
             </button>
         </header>
@@ -62,7 +62,7 @@
             <h2>TUGAS AKTIF</h2>
             <div class="card-grid">
                 @forelse ($activeTasks as $task)
-                    <div class="card" onclick='openEditModal(@json($task), "{{ url('/tasks') }}")'>
+                    <div class="card task-card" data-task='@json($task)' data-url="{{ url('/tasks') }}">
                         <div class="card-info">
                             <h3>{{ $task->nama_tugas }}</h3>
                             <p><i class="fas fa-clock"></i> {{ date('d M Y', strtotime($task->deadline)) }}, Pukul {{ $task->waktu }}</p>
@@ -141,7 +141,7 @@
 {{-- modal tambah tugas --}}
 <div id="addModal" class="modal">
     <div class="modal-content">
-        <span class="close" onclick="closeAddModal()" title="Tutup">&times;</span>
+        <span class="close" id="btnCloseAddModal" title="Tutup">&times;</span>
         <h2>Tambah Tugas Baru</h2>
         <form action="{{ url('/tasks') }}" method="POST">
             @csrf
@@ -176,7 +176,7 @@
 {{-- modal edit tugas --}}
 <div id="editModal" class="modal">
     <div class="modal-content">
-        <span class="close" onclick="closeEditModal()" title="Tutup">&times;</span>
+        <span class="close" id="btnCloseEditModal" title="Tutup">&times;</span>
         <h2>Detail Tugas</h2>
         <form id="editTaskForm" action="" method="POST">
             @csrf
@@ -216,7 +216,7 @@
 <script src="{{ asset('assets/js/dashboard.js') }}"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        // grafik konsistensi 7 hari
+        {{-- grafik konsistensi 7 hari --}}
         var ctx = document.getElementById('performaChart').getContext('2d');
         new Chart(ctx, {
             type: 'line',
@@ -232,6 +232,8 @@
                 }]
             },
             options: {
+                responsive: true,
+                maintainAspectRatio: false,
                 animation: false,
                 scales: {
                     y: { beginAtZero: true, ticks: { color: '#94a3b8' } },

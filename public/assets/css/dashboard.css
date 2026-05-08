@@ -1,4 +1,4 @@
-/* dashboard.css */
+/* globals */
 
 :root {
     --bg-dark: #0e1322;
@@ -250,6 +250,12 @@ body {
     min-width: 0;
 }
 
+/* grafik konsistensi */
+#performaChart {
+    min-height: 250px;
+    width: 100% !important;
+}
+
 /* modal */
 .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); align-items: center; justify-content: center; backdrop-filter: blur(4px); }
 .modal-content { background-color: var(--surface); padding: 32px; border-radius: 16px; width: 90%; max-width: 500px; position: relative; border: 1px solid var(--border); }
@@ -265,7 +271,8 @@ body {
 .toast-notif { position: fixed; bottom: 20px; right: 20px; background-color: #10b981; color: white; padding: 12px 24px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 9999; opacity: 0; transform: translateY(20px); transition: opacity 0.3s ease, transform 0.3s ease; }
 .toast-notif.show { opacity: 1; transform: translateY(0); }
 
-/* responsive - tablet (≤ 768px) */
+/* responsif */
+/* tablet */
 @media screen and (max-width: 768px) {
 
     .sidebar {
@@ -321,7 +328,7 @@ body {
     }
 }
 
-/* responsive - mobile (≤ 480px) */
+/* mobile */
 @media screen and (max-width: 480px) {
 
     /* layout jadi vertikal */

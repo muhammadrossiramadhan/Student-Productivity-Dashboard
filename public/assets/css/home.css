@@ -109,7 +109,7 @@ body {
     z-index: 1001;
 }
 
-/* hero section*/
+/* hero section */
 .hero-section {
     background-image: linear-gradient(rgba(10, 15, 30, 0.7), rgba(10, 15, 30, 0.7)), url('../img/Landing Page 01.jpg');
     background-size: cover;
@@ -144,7 +144,7 @@ body {
     line-height: 1.6;
 }
 
-/* general section (apa itu & kenapa harus)*/
+/* general section (apa itu & kenapa harus) */
 .student-section {
     min-height: 100vh;
     background-color: #0e1322;
@@ -202,7 +202,7 @@ body {
     border-color: #424655;
 }
 
-/* cards grid (fitur & ulasan)*/
+/* cards grid (fitur & ulasan) */
 .feature-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
