@@ -64,22 +64,35 @@ class TaskController extends Controller
     // update tugas
     public function update(Request $request, Task $task) {
         if ($task->user_id !== Auth::id()) abort(403);
+
+        $request->validate([
+            'nama_tugas' => 'required',
+            'deadline'   => 'required|date',
+            'waktu'      => 'required',
+            'prioritas'  => 'required|in:Tinggi,Sedang,Rendah'
+        ]);
+
         $task->update($request->all());
-        return back();
+        return back()->with('success', 'Tugas berhasil diperbarui!');
     }
 
-    // tandai tugas selesai dan hitung poin
     public function markAsDone(Task $task) {
         if ($task->user_id !== Auth::id()) abort(403);
 
         $tenggat = Carbon::parse($task->deadline . ' ' . $task->waktu);
         $skrg = Carbon::now();
-
-        // poin lebih besar kalau tepat waktu
+        
         $is_ontime = $skrg->lte($tenggat);
-        $poin = $is_ontime
-            ? ($task->prioritas === 'Tinggi' ? 15 : ($task->prioritas === 'Sedang' ? 10 : 5))
-            : ($task->prioritas === 'Tinggi' ? 5  : ($task->prioritas === 'Sedang' ? 3  : 1));
+        
+        if ($is_ontime) {
+            if ($task->prioritas === 'Tinggi') $poin = 15;
+            elseif ($task->prioritas === 'Sedang') $poin = 10;
+            else $poin = 3; // Prioritas Rendah
+        } else {
+            if ($task->prioritas === 'Tinggi') $poin = 7;
+            elseif ($task->prioritas === 'Sedang') $poin = 5;
+            else $poin = 0; // Prioritas Rendah
+        }
 
         $task->update(['status' => 'Selesai', 'selesai_at' => $skrg, 'poin_konsistensi' => $poin]);
         return back()->with('success', 'Tugas diselesaikan! +' . $poin . ' Poin');
