@@ -18,7 +18,7 @@
     <!-- Menampilkan pesan error dari session Laravel -->
     @if (session('error'))
         <div class="alert alert-error" style="background: rgba(239,68,68,.15); border: 1px solid #ef4444; color: #fca5a5; padding: 10px; border-radius: 8px; margin-bottom: 15px;">
-            ⚠️ {{ session('error') }}
+            {{ session('error') }}
         </div>
     @endif
 

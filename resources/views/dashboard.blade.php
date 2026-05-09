@@ -9,21 +9,39 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         /* CSS Darurat untuk mengamankan responsivitas saat dosen menekan Ctrl+Shift+C */
+        .mobile-menu-btn { display: none; }
+        .logo-wrapper { margin-bottom: 32px; } /* Dipindah dari inline-style HTML ke sini untuk desktop */
+        .mobile-menu-item { display: none; }
+        .mobile-header-statistik { display: none; }
+        .mobile-swipe-hint { display: none; } /* Sembunyikan hint swipe di Desktop */
+        
         @media (max-width: 768px) {
-            .dashboard-container { flex-direction: column !important; }
-            .sidebar { 
-                width: 100% !important; height: auto !important; position: static !important;
-                display: flex; flex-direction: row; justify-content: space-between; align-items: center; 
-                padding: 15px; flex-wrap: wrap; gap: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);
+            .dashboard-container { 
+                flex-direction: column !important; 
+                justify-content: flex-start !important; 
+                height: auto !important; 
             }
-            .sidebar > div:first-child { margin-bottom: 0 !important; }
-            .user-profile { margin-bottom: 0; padding: 0; border: none; }
-            .menu { display: flex; flex-direction: row; gap: 15px; margin-bottom: 0; }
-            .menu-item { padding: 8px !important; text-align: center; }
-            .bottom-menu { position: static !important; }
+            .sidebar { 
+                width: 100% !important; height: auto !important; min-height: 0 !important; flex: none !important; position: static !important;
+                display: flex; flex-direction: column; justify-content: flex-start !important; gap: 0 !important;
+                padding: 10px 15px; border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
+            .sidebar-brand { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+            .logo-wrapper { margin-bottom: 0 !important; }
             
-            .main-content { padding: 15px !important; width: 100% !important; margin-left: 0 !important; }
-            .top-header { flex-direction: column; align-items: stretch; gap: 15px; height: auto !important; }
+            .mobile-menu-btn { display: block; background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
+            
+            .sidebar-menu-collapse { display: none; flex-direction: column; width: 100%; margin-top: 10px; gap: 5px; }
+            .sidebar-menu-collapse.show { display: flex; }
+
+            .user-profile { margin-bottom: 0; padding: 5px 0 10px 0; border: none; border-bottom: 1px solid rgba(255,255,255,0.1); }
+            .menu { display: flex; flex-direction: column; gap: 5px; margin-bottom: 0; }
+            .menu-item { padding: 8px 10px !important; text-align: left; width: 100%; }
+            .bottom-menu { position: static !important; margin-top: 0; }
+            
+            .main-content { padding: 15px !important; width: 100% !important; margin: 0 !important; flex: 1 !important; }
+            .top-header { flex-direction: column; align-items: stretch; gap: 15px; height: auto !important; margin-top: 0 !important; }
+            .top-header h1 { margin: 0 !important; font-size: 1.3rem !important; }
             .search-form { width: 100%; }
             .search-input { width: 100%; box-sizing: border-box; }
             
@@ -32,6 +50,29 @@
             .input-row { display: flex; flex-direction: column; gap: 10px; }
             
             .modal-content { width: 95% !important; margin: 10% auto !important; padding: 20px !important; }
+            
+            /* Tab System ala Aplikasi Native untuk Mobile */
+            .mobile-menu-item { display: block; width: 100%; }
+            .chart-section { display: none !important; } /* Sembunyikan grafik by default (Beranda) */
+            
+            main.show-statistik .content-section:not(.chart-section) { display: none !important; }
+            main.show-statistik .top-header:not(.mobile-header-statistik) { display: none !important; }
+            
+            main.show-statistik .chart-section { display: block !important; }
+            main.show-statistik .mobile-header-statistik { display: flex !important; }
+            
+            /* Perbaikan UI Grafik agar bisa digeser di mode Statistik Mobile */
+            .chart-wrapper { width: 100%; overflow-x: auto; overflow-y: hidden; }
+            .chart-inner { min-width: 500px; height: 250px; position: relative; }
+            
+            .mobile-swipe-hint {
+                display: block;
+                font-size: 0.75rem;
+                color: #94a3b8; /* Warna teks abu-abu redup */
+                text-align: center;
+                margin-bottom: 10px;
+                font-style: italic;
+            }
         }
     </style>
 </head>
@@ -39,35 +80,43 @@
 
     @if (session('success'))
         <div id="toastNotif" class="toast-notif">
-            ✅ {{ session('success') }}
+            {{ session('success') }}
         </div>
     @endif
 
     <div class="dashboard-container">
         <aside class="sidebar">
-            <!-- Logo Branding (Klik untuk ke Landing Page) -->
-            <div style="margin-bottom: 32px;">
-                <a href="{{ url('/') }}" style="color: var(--primary); font-size: 1.5rem; font-weight: 800; text-decoration: none; letter-spacing: 1px; display: flex; align-items: center; gap: 8px;">
-                    <i class="fas fa-graduation-cap"></i> Student.io
-                </a>
+            <div class="sidebar-brand">
+                <!-- Logo Branding (Klik untuk ke Landing Page) -->
+                <div class="logo-wrapper">
+                    <a href="{{ url('/') }}" style="color: var(--primary); font-size: 1.5rem; font-weight: 800; text-decoration: none; letter-spacing: 1px; display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-graduation-cap"></i> Student.io
+                    </a>
+                </div>
+                <button id="mobile-menu-btn" class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
             </div>
 
-            <div class="user-profile">
-                <div class="avatar"><i class="fas fa-user"></i></div>
-                <span class="user-name">{{ auth()->user()->panggilan ?? auth()->user()->username }}</span>
-            </div>
+            <div id="sidebar-menu-collapse" class="sidebar-menu-collapse">
+                <div class="user-profile">
+                    <div class="avatar"><i class="fas fa-user"></i></div>
+                    <span class="user-name">{{ auth()->user()->panggilan ?? auth()->user()->username }}</span>
+                </div>
 
-            <nav class="menu">
-                <a href="{{ url('/dashboard') }}" class="menu-item active"><i class="fas fa-home"></i> Beranda</a>
-            </nav>
+                <nav class="menu">
+                    <a href="{{ url('/dashboard') }}" id="menu-beranda" class="menu-item active" onclick="if(window.innerWidth <= 768) { switchMobileView('beranda'); return false; }"><i class="fas fa-home"></i> Beranda</a>
+                    <a href="#" id="menu-statistik" class="menu-item mobile-menu-item" onclick="switchMobileView('statistik'); return false;"><i class="fas fa-chart-line"></i> Statistik</a>
+                </nav>
 
-            <div class="bottom-menu">
-                <form method="POST" action="{{ url('/logout') }}">
-                    @csrf
-                    <button type="submit" class="menu-item text-danger" style="background:none; border:none; width:100%; text-align:left; cursor:pointer;">
-                        <i class="fas fa-sign-out-alt"></i> Logout
-                    </button>
-                </form>
+                <div class="bottom-menu">
+                    <form method="POST" action="{{ url('/logout') }}">
+                        @csrf
+                        <button type="submit" class="menu-item text-danger" style="background:none; border:none; width:100%; text-align:left; cursor:pointer;">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </button>
+                    </form>
+                </div>
             </div>
         </aside>
 
@@ -76,11 +125,16 @@
                 <h1><i class="fas fa-home"></i> BERANDA </h1>
                 
                 <form method="GET" action="{{ url('/dashboard') }}" class="search-form">
-                    <input type="text" name="search" class="search-input" placeholder="🔍 Cari tugas atau deskripsi..." value="{{ request('search') }}">
+                    <input type="text" name="search" class="search-input" placeholder="Cari tugas atau deskripsi..." value="{{ request('search') }}">
                     <button type="submit" class="btn-primary">Cari</button>
                 </form>
 
                 <button class="btn-primary" onclick="openAddModal()"><i class="fas fa-plus"></i> Tambah Tugas</button>
+            </header>
+
+            <!-- Header khusus untuk mode Statistik di Mobile -->
+            <header class="top-header mobile-header-statistik" style="margin-top: 0 !important; margin-bottom: 20px;">
+                <h1><i class="fas fa-chart-line"></i> STATISTIK KONSISTENSI </h1>
             </header>
 
             <section class="content-section">
@@ -144,10 +198,15 @@
                     </div>
                 </section>
 
-                <section class="content-section">
+                <section class="content-section chart-section">
                     <h2>GRAFIK KONSISTENSI</h2>
                     <div class="card" style="cursor: default;">
-                        <canvas id="performaChart"></canvas>
+                        <p class="mobile-swipe-hint"><i class="fas fa-arrows-alt-h"></i> Geser untuk melihat</p>
+                        <div class="chart-wrapper">
+                            <div class="chart-inner">
+                                <canvas id="performaChart"></canvas>
+                            </div>
+                        </div>
                     </div>
                 </section>
             </div>
@@ -257,6 +316,8 @@
                 ]
             },
             options: {
+                responsive: true,
+                maintainAspectRatio: false,
                 scales: { y: { beginAtZero: true, ticks: { color: '#94a3b8' } }, x: { ticks: { color: '#94a3b8' } } },
                 plugins: { legend: { labels: { color: '#e2e8f0' } } }
             }
@@ -267,6 +328,37 @@
             setTimeout(() => toast.classList.add('show'), 100);
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
+        
+        // Hamburger Menu Toggle
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const sidebarCollapse = document.getElementById('sidebar-menu-collapse');
+        if (menuBtn && sidebarCollapse) {
+            menuBtn.addEventListener('click', function() {
+                sidebarCollapse.classList.toggle('show');
+            });
+        }
+        
+        // Fungsi Pindah "Halaman" Tab untuk Mobile
+        window.switchMobileView = function(view) {
+            const mainContent = document.querySelector('.main-content');
+            const menuBeranda = document.getElementById('menu-beranda');
+            const menuStatistik = document.getElementById('menu-statistik');
+            
+            if(view === 'statistik') {
+                mainContent.classList.add('show-statistik');
+                menuBeranda.classList.remove('active');
+                menuStatistik.classList.add('active');
+            } else {
+                mainContent.classList.remove('show-statistik');
+                menuStatistik.classList.remove('active');
+                menuBeranda.classList.add('active');
+            }
+            
+            // Otomatis menutup hamburger menu setelah menu dipilih
+            if(sidebarCollapse && sidebarCollapse.classList.contains('show')) {
+                sidebarCollapse.classList.remove('show');
+            }
+        };
     });
     </script>
 </body>
