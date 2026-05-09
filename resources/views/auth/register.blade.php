@@ -17,7 +17,7 @@
 
     @if ($errors->any())
         <div class="alert alert-error" style="background: rgba(239,68,68,.15); border: 1px solid #ef4444; color: #fca5a5; padding: 10px; border-radius: 8px; margin-bottom: 15px;">
-            ⚠️ {{ $errors->first() }}
+            {{ $errors->first() }}
         </div>
     @endif
 
