@@ -262,7 +262,7 @@ body {
 
 /* responsif */
 /* tablet */
-@media (max-width: 992px) {
+@media (max-width: 1024px) {
     .top-nav { padding: 20px 5%; }
     .hamburger { display: block; }
     
@@ -270,7 +270,7 @@ body {
         position: fixed;
         top: 0;
         right: -100%; 
-        width: 300px;
+        width: 100%;
         height: 100vh;
         background-color: #0e1322;
         flex-direction: column;
@@ -297,7 +297,7 @@ body {
 }
 
 /* mobile */
-@media (max-width: 768px) {
+@media (max-width: 480px) {
     .nav-links { width: 100%; }
     .btn-buat { padding: 10px 30px; font-size: 0.9rem; }
     

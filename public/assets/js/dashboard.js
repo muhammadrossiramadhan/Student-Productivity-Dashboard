@@ -69,3 +69,62 @@ taskCards.forEach(card => {
         openEditModal(taskData, basePath);
     });
 });
+
+// logika navigasi tab & hamburger menu
+const menuItems = document.querySelectorAll('.menu-item[data-tab]');
+const sectionTugas = document.getElementById('section-tugas');
+const sectionRiwayat = document.getElementById('section-riwayat');
+const searchForm = document.getElementById('search-form');
+const pageTitle = document.getElementById('page-title');
+const hamburgerMenu = document.getElementById('hamburgerMenu');
+const sidebar = document.getElementById('sidebar');
+
+// tab switching
+if (menuItems.length > 0) {
+    menuItems.forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // hapus active dari semua menu
+            menuItems.forEach(m => m.classList.remove('active'));
+            // set active ke menu yang diklik
+            this.classList.add('active');
+            
+            const tab = this.getAttribute('data-tab');
+            
+            if (tab === 'beranda') {
+                pageTitle.innerHTML = '<i class="fas fa-home"></i> BERANDA';
+                if(sectionTugas) sectionTugas.style.display = 'block';
+                if(sectionRiwayat) sectionRiwayat.style.display = 'flex';
+                if(searchForm) searchForm.style.display = 'flex';
+                if(btnAddModal) btnAddModal.style.display = 'flex';
+            } 
+            else if (tab === 'tugas') {
+                pageTitle.innerHTML = '<i class="fas fa-tasks"></i> TUGAS';
+                if(sectionTugas) sectionTugas.style.display = 'block';
+                if(sectionRiwayat) sectionRiwayat.style.display = 'none';
+                if(searchForm) searchForm.style.display = 'flex';
+                if(btnAddModal) btnAddModal.style.display = 'flex';
+            } 
+            else if (tab === 'riwayat') {
+                pageTitle.innerHTML = '<i class="fas fa-chart-line"></i> RIWAYAT';
+                if(sectionTugas) sectionTugas.style.display = 'none';
+                if(sectionRiwayat) sectionRiwayat.style.display = 'flex';
+                if(searchForm) searchForm.style.display = 'none';
+                if(btnAddModal) btnAddModal.style.display = 'none';
+            }
+            
+            // tutup sidebar setelah klik menu di mobile
+            if (window.innerWidth <= 768 && sidebar) {
+                sidebar.classList.remove('active');
+            }
+        });
+    });
+}
+
+// hamburger menu toggle
+if (hamburgerMenu && sidebar) {
+    hamburgerMenu.addEventListener('click', () => {
+        sidebar.classList.toggle('active');
+    });
+}

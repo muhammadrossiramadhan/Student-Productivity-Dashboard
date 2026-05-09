@@ -11,10 +11,20 @@
 <body>
 
 <div class="dashboard-container">
-    <aside class="sidebar">
+    {{-- navbar mobile --}}
+    <div class="mobile-top-nav">
+        <div class="logo">
+            <i class="fas fa-graduation-cap"></i> STUDENT.IO
+        </div>
+        <div class="hamburger" id="hamburgerMenu">
+            <i class="fas fa-bars"></i>
+        </div>
+    </div>
+
+    <aside class="sidebar" id="sidebar">
 
         {{-- logo --}}
-        <div style="margin-bottom: 30px;">
+        <div class="sidebar-logo" style="margin-bottom: 30px;">
             <a href="{{ url('/') }}" style="color: white; font-size: 1.4rem; font-weight: 800; text-decoration: none; display: flex; align-items: center; gap: 8px;">
                 <i class="fas fa-graduation-cap"></i> STUDENT.IO
             </a>
@@ -26,8 +36,14 @@
         </div>
 
         <nav class="menu">
-            <a href="{{ url('/dashboard') }}" class="menu-item active">
+            <a href="#" class="menu-item active" data-tab="beranda">
                 <i class="fas fa-home"></i> Beranda
+            </a>
+            <a href="#" class="menu-item" data-tab="tugas">
+                <i class="fas fa-tasks"></i> Tugas
+            </a>
+            <a href="#" class="menu-item" data-tab="riwayat">
+                <i class="fas fa-history"></i> Riwayat
             </a>
         </nav>
 
@@ -43,11 +59,11 @@
     </aside>
 
     <main class="main-content">
-        <header class="top-header">
-            <h1><i class="fas fa-home"></i> BERANDA</h1>
+        <header class="top-header" id="top-header">
+            <h1 id="page-title"><i class="fas fa-home"></i> BERANDA</h1>
 
             {{-- form pencarian tugas --}}
-            <form method="GET" action="{{ url('/dashboard') }}" class="search-form">
+            <form method="GET" action="{{ url('/dashboard') }}" class="search-form" id="search-form">
                 <input type="text" name="search" class="search-input" placeholder="Cari Tugas" value="{{ request('search') }}">
                 <button type="submit" class="btn-primary">Cari</button>
             </form>
@@ -58,7 +74,7 @@
         </header>
 
         {{-- tugas aktif --}}
-        <section class="content-section">
+        <section class="content-section" id="section-tugas">
             <h2>TUGAS AKTIF</h2>
             <div class="card-grid">
                 @forelse ($activeTasks as $task)
@@ -95,7 +111,7 @@
         </section>
 
         {{-- riwayat & grafik --}}
-        <div class="bottom-grid">
+        <div class="bottom-grid" id="section-riwayat">
 
             {{-- riwayat tugas selesai --}}
             <section class="content-section">
@@ -236,8 +252,18 @@
                 maintainAspectRatio: false,
                 animation: false,
                 scales: {
-                    y: { beginAtZero: true, ticks: { color: '#94a3b8' } },
-                    x: { ticks: { color: '#94a3b8' } }
+                    y: { 
+                        beginAtZero: true, 
+                        ticks: { 
+                            color: '#94a3b8',
+                            stepSize: 1,
+                            precision: 0
+                        } 
+                    },
+                    x: { 
+                        ticks: { display: false },
+                        grid: { display: false }
+                    }
                 },
                 plugins: {
                     legend: { labels: { color: '#e2e8f0' } }
