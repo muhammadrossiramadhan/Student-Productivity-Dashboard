@@ -18,7 +18,7 @@
                 <i class="fas fa-graduation-cap"></i> STUDENT.IO
             </a>
         </div>
-        <div class="hamburger" id="hamburgerMenu">// hamburger menu dari yoshua
+        <div class="hamburger" id="hamburgerMenu">
             <i class="fas fa-bars"></i>
         </div>
     </div>
