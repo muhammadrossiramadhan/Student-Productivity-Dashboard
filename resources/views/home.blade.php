@@ -23,10 +23,10 @@
             </div>
             
             <div class="nav-links" id="navLinks">
-                <a href="#apa itu" class="btn-info" onclick="toggleMenu()">Apa itu STUDENT.IO?</a>
-                <a href="#kenapa-harus" class="btn-info" onclick="toggleMenu()">Kenapa Harus STUDENT.IO?</a>
-                <a href="#fitur" class="btn-info" onclick="toggleMenu()">Fitur</a>
-                <a href="#ulasan" class="btn-info" onclick="toggleMenu()">Ulasan</a>
+                <a href="#apa itu" class="btn-info">Apa itu STUDENT.IO?</a>
+                <a href="#kenapa-harus" class="btn-info">Kenapa Harus STUDENT.IO?</a>
+                <a href="#fitur" class="btn-info">Fitur</a>
+                <a href="#ulasan" class="btn-info">Ulasan</a>
                 
                 <div class="nav-auth">
                     @auth
@@ -38,7 +38,7 @@
             </div>
 
             {{-- hamburger icon (mobile/tablet) --}}
-            <div class="hamburger" id="hamburgerMenu" onclick="toggleMenu()">
+            <div class="hamburger" id="hamburgerMenu">
                 <i class="fas fa-bars"></i>
             </div>
         </nav>

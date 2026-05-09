@@ -11,10 +11,20 @@
 <body>
 
 <div class="dashboard-container">
-    <aside class="sidebar">
+    {{-- navbar mobile --}}
+    <div class="mobile-top-nav">
+        <div class="logo">
+            <i class="fas fa-graduation-cap"></i> STUDENT.IO
+        </div>
+        <div class="hamburger" id="hamburgerMenu">
+            <i class="fas fa-bars"></i>
+        </div>
+    </div>
+
+    <aside class="sidebar" id="sidebar">
 
         {{-- logo --}}
-        <div style="margin-bottom: 30px;">
+        <div class="sidebar-logo" style="margin-bottom: 30px;">
             <a href="{{ url('/') }}" style="color: white; font-size: 1.4rem; font-weight: 800; text-decoration: none; display: flex; align-items: center; gap: 8px;">
                 <i class="fas fa-graduation-cap"></i> STUDENT.IO
             </a>
@@ -26,8 +36,14 @@
         </div>
 
         <nav class="menu">
-            <a href="{{ url('/dashboard') }}" class="menu-item active">
+            <a href="#" class="menu-item active" data-tab="beranda">
                 <i class="fas fa-home"></i> Beranda
+            </a>
+            <a href="#" class="menu-item" data-tab="tugas">
+                <i class="fas fa-tasks"></i> Tugas
+            </a>
+            <a href="#" class="menu-item" data-tab="riwayat">
+                <i class="fas fa-history"></i> Riwayat
             </a>
         </nav>
 
@@ -43,26 +59,26 @@
     </aside>
 
     <main class="main-content">
-        <header class="top-header">
-            <h1><i class="fas fa-home"></i> BERANDA</h1>
+        <header class="top-header" id="top-header">
+            <h1 id="page-title"><i class="fas fa-home"></i> BERANDA</h1>
 
             {{-- form pencarian tugas --}}
-            <form method="GET" action="{{ url('/dashboard') }}" class="search-form">
+            <form method="GET" action="{{ url('/dashboard') }}" class="search-form" id="search-form">
                 <input type="text" name="search" class="search-input" placeholder="Cari Tugas" value="{{ request('search') }}">
                 <button type="submit" class="btn-primary">Cari</button>
             </form>
 
-            <button class="btn-primary" onclick="openAddModal()">
+            <button class="btn-primary" id="btnAddModal">
                 <i class="fas fa-plus"></i> Tambah Tugas
             </button>
         </header>
 
         {{-- tugas aktif --}}
-        <section class="content-section">
+        <section class="content-section" id="section-tugas">
             <h2>TUGAS AKTIF</h2>
             <div class="card-grid">
                 @forelse ($activeTasks as $task)
-                    <div class="card" onclick='openEditModal(@json($task), "{{ url('/tasks') }}")'>
+                    <div class="card task-card" data-task='@json($task)' data-url="{{ url('/tasks') }}">
                         <div class="card-info">
                             <h3>{{ $task->nama_tugas }}</h3>
                             <p><i class="fas fa-clock"></i> {{ date('d M Y', strtotime($task->deadline)) }}, Pukul {{ $task->waktu }}</p>
@@ -95,7 +111,7 @@
         </section>
 
         {{-- riwayat & grafik --}}
-        <div class="bottom-grid">
+        <div class="bottom-grid" id="section-riwayat">
 
             {{-- riwayat tugas selesai --}}
             <section class="content-section">
@@ -141,7 +157,7 @@
 {{-- modal tambah tugas --}}
 <div id="addModal" class="modal">
     <div class="modal-content">
-        <span class="close" onclick="closeAddModal()" title="Tutup">&times;</span>
+        <span class="close" id="btnCloseAddModal" title="Tutup">&times;</span>
         <h2>Tambah Tugas Baru</h2>
         <form action="{{ url('/tasks') }}" method="POST">
             @csrf
@@ -176,7 +192,7 @@
 {{-- modal edit tugas --}}
 <div id="editModal" class="modal">
     <div class="modal-content">
-        <span class="close" onclick="closeEditModal()" title="Tutup">&times;</span>
+        <span class="close" id="btnCloseEditModal" title="Tutup">&times;</span>
         <h2>Detail Tugas</h2>
         <form id="editTaskForm" action="" method="POST">
             @csrf
@@ -216,7 +232,7 @@
 <script src="{{ asset('assets/js/dashboard.js') }}"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        // grafik konsistensi 7 hari
+        {{-- grafik konsistensi 7 hari --}}
         var ctx = document.getElementById('performaChart').getContext('2d');
         new Chart(ctx, {
             type: 'line',
@@ -232,10 +248,22 @@
                 }]
             },
             options: {
+                responsive: true,
+                maintainAspectRatio: false,
                 animation: false,
                 scales: {
-                    y: { beginAtZero: true, ticks: { color: '#94a3b8' } },
-                    x: { ticks: { color: '#94a3b8' } }
+                    y: { 
+                        beginAtZero: true, 
+                        ticks: { 
+                            color: '#94a3b8',
+                            stepSize: 1,
+                            precision: 0
+                        } 
+                    },
+                    x: { 
+                        ticks: { display: false },
+                        grid: { display: false }
+                    }
                 },
                 plugins: {
                     legend: { labels: { color: '#e2e8f0' } }
