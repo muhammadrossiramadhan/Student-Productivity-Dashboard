@@ -14,7 +14,9 @@
     {{-- navbar mobile --}}
     <div class="mobile-top-nav">
         <div class="logo">
-            <i class="fas fa-graduation-cap"></i> STUDENT.IO
+            <a href="{{ url('/') }}" style="text-decoration: none; color: inherit;">
+                <i class="fas fa-graduation-cap"></i> STUDENT.IO
+            </a>
         </div>
         <div class="hamburger" id="hamburgerMenu">
             <i class="fas fa-bars"></i>
