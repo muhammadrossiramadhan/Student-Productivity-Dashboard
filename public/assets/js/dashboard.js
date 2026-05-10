@@ -115,7 +115,7 @@ if (menuItems.length > 0) {
             }
             
             // tutup sidebar setelah klik menu di mobile
-            if (window.innerWidth <= 768 && sidebar) {
+            if (window.innerWidth <= 1024 && sidebar) {
                 sidebar.classList.remove('active');
             }
         });
@@ -128,3 +128,26 @@ if (hamburgerMenu && sidebar) {
         sidebar.classList.toggle('active');
     });
 }
+
+// tutup modal jika klik di luar modal 
+window.addEventListener('click', function(e) {
+    if (e.target === addModal) {
+        closeAddModal();
+    }
+    if (e.target === editModal) {
+        closeEditModal();
+    }
+});
+
+// mencegah double submit pada form modal
+document.querySelectorAll('.modal form').forEach(form => {
+    form.addEventListener('submit', function() {
+        const submitBtn = this.querySelector('button[type="submit"]');
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyimpan...';
+            submitBtn.style.opacity = '0.7';
+            submitBtn.style.cursor = 'not-allowed';
+        }
+    });
+});
