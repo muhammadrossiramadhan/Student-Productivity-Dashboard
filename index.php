@@ -63,8 +63,8 @@ if (isset($_SESSION['is_login']) && $_SESSION['is_login'] === true) {
         </nav>
 
         <main class="hero-content">
-            <h1>SATU TEMPAT UNTUK SEMUA<br>TUGAS DAN JADWALMU</h1>
-            <p>Ayoo jadikan  semua tugas dan jadwalmu lebih terorganisir!</p>
+            <h1>STUDENT.IO</h1>
+            <p>SATU TEMPAT UNTUK SEMUA<br>TUGAS DAN JADWALMU<br>Ayoo jadikan  semua tugas dan jadwalmu lebih terorganisir!</p>
             
             <a href="register.php" class="btn-buat">Mulai Sekarang &#8599;</a>
         </main>
