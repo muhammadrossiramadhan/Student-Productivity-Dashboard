@@ -90,7 +90,7 @@ if (isset($_SESSION['is_login']) && $_SESSION['is_login'] === true) {
         </div>
 
          <div class="student-image">
-            <img src="https://img.freepik.com/premium-vector/education-achievement-with-books-trophy-graduation-ceremony-concept_1326094-11473.jpg" alt="Student.IO">
+            <img src="https://media.istockphoto.com/id/1289812848/vector/tiny-male-character-with-huge-pencil-sit-on-guidance-booklet-or-guided-textbook-user-manual.jpg?s=170667a&w=0&k=20&c=g1Cjcgp5e4FY5yasMfpFxFIAR-JFkQ7A4zIfCMWUGhM=" alt="Student.IO">
         </div> 
     </section>
 
@@ -107,7 +107,7 @@ if (isset($_SESSION['is_login']) && $_SESSION['is_login'] === true) {
         </div>
 
         <div class="student-image">
-            <img src="https://img.freepik.com/premium-vector/education-achievement-with-books-trophy-graduation-ceremony-concept_1326094-11473.jpg" alt="Student.IO">
+            <img src="https://tse4.mm.bing.net/th/id/OIP.SM1uoSZBRVMkL6L7FGfM1wHaHa?r=0&w=600&h=600&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Student.IO">
         </div>
     </section>
 
@@ -125,7 +125,7 @@ if (isset($_SESSION['is_login']) && $_SESSION['is_login'] === true) {
         </div>
 
         <div class="student-image">
-            <img src="https://img.freepik.com/premium-vector/education-achievement-with-books-trophy-graduation-ceremony-concept_1326094-11473.jpg" alt="Student.IO">
+            <img src="https://png.pngtree.com/png-vector/20210713/ourlarge/pngtree-online-information-resources-online-certificate-graduation-png-image_3557486.jpg" alt="Student.IO">
         </div>
     </section>
 
@@ -140,7 +140,7 @@ if (isset($_SESSION['is_login']) && $_SESSION['is_login'] === true) {
         </div>
 
         <div class="student-image">
-            <img src="https://img.freepik.com/premium-vector/education-achievement-with-books-trophy-graduation-ceremony-concept_1326094-11473.jpg" alt="Student.IO">
+            <img src="https://static.vecteezy.com/system/resources/thumbnails/011/979/493/small_2x/graduate-achievement-university-learning-education-illustration-flat-template-free-vector.jpg" alt="Student.IO">
         </div>
     </section>
 
