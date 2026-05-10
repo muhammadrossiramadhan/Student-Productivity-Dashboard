@@ -16,6 +16,10 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     background-color: var(--bg-dark);
     color: var(--text-muted);
@@ -26,7 +30,7 @@ body {
 .section-title {
     text-align: center;
     width: 100%;
-    font-size: 36px;
+    font-size: 42px;
     color: var(--text-main);
     margin: 0 0 15px;
     font-weight: 700;
@@ -124,7 +128,7 @@ body {
     background-image: linear-gradient(rgba(10, 15, 30, 0.7), rgba(10, 15, 30, 0.7)), url('../img/Landing Page 01.jpg');
     background-size: cover;
     background-position: center;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center; 
@@ -142,7 +146,7 @@ body {
 }
 
 .hero-content h1 {
-    font-size: 3.2rem;
+    font-size: 3.8rem;
     letter-spacing: 2px;
     font-weight: 800;
 }
@@ -161,12 +165,13 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 50px 10%;
+    padding: 80px 10%;
     gap: 50px;
 }
 
 .screen-section {
     min-height: 100vh;
+    padding: 80px 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -178,8 +183,8 @@ body {
 }
 
 .student-text h2 {
-    font-size: 40px;
-    margin-bottom: 20px;
+    font-size: 44px;
+    margin-bottom: 24px;
     color: var(--text-main);
     font-weight: 700;
 }
@@ -203,13 +208,6 @@ body {
     border: 1px solid var(--border);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     opacity: 0.9;
-    transition: 0.3s ease;
-}
-
-.student-image img:hover {
-    opacity: 1;
-    box-shadow: 0 15px 40px rgba(41, 121, 255, 0.15);
-    border-color: #424655;
 }
 
 /* cards grid (fitur & ulasan) */
@@ -309,6 +307,13 @@ body {
         text-align: center;
         padding: 60px 5%;
         gap: 40px;
+        min-height: 100vh;
+        justify-content: center;
+    }
+
+    .screen-section {
+        padding: 60px 0;
+        min-height: 100vh;
     }
 
     .student-section.alt-bg {
