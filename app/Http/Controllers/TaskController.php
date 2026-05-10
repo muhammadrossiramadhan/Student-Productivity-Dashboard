@@ -51,10 +51,11 @@ class TaskController extends Controller
     // simpan tugas baru
     public function store(Request $request) {
         $request->validate([
-            'nama_tugas' => 'required',
+            'nama_tugas' => 'required|max:100',
             'deadline'   => 'required|date',
             'waktu'      => 'required',
-            'prioritas'  => 'required|in:Tinggi,Sedang,Rendah'
+            'prioritas'  => 'required|in:Tinggi,Sedang,Rendah',
+            'deskripsi'  => 'nullable|max:300'
         ]);
 
         Auth::user()->tasks()->create($request->all());
@@ -66,10 +67,11 @@ class TaskController extends Controller
         if ($task->user_id !== Auth::id()) abort(403);
 
         $request->validate([
-            'nama_tugas' => 'required',
+            'nama_tugas' => 'required|max:100',
             'deadline'   => 'required|date',
             'waktu'      => 'required',
-            'prioritas'  => 'required|in:Tinggi,Sedang,Rendah'
+            'prioritas'  => 'required|in:Tinggi,Sedang,Rendah',
+            'deskripsi'  => 'nullable|max:300'
         ]);
 
         $task->update($request->all());

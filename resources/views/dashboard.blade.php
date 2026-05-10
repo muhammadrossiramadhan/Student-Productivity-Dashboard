@@ -73,7 +73,7 @@
 
             {{-- form pencarian tugas --}}
             <form method="GET" action="{{ url('/dashboard') }}" class="search-form" id="search-form">
-                <input type="text" name="search" class="search-input" placeholder="Cari Tugas" value="{{ request('search') }}">
+                <input type="text" name="search" class="search-input" maxlength="100" placeholder="Cari Tugas" value="{{ request('search') }}">
                 <button type="submit" class="btn-primary">Cari</button>
             </form>
 
@@ -172,7 +172,7 @@
             @csrf
             <div class="input-group">
                 <label for="judul">Nama Tugas</label>
-                <input type="text" id="judul" name="nama_tugas" required placeholder="Judul Tugas">
+                <input type="text" id="judul" name="nama_tugas" maxlength="100" required placeholder="Judul Tugas">
             </div>
             <div class="input-group">
                 <label for="deadline">Tanggal & Waktu Deadline</label>
@@ -190,8 +190,8 @@
                 </select>
             </div>
             <div class="input-group">
-                <label for="deskripsi">Deskripsi (opsional)</label>
-                <textarea id="deskripsi" name="deskripsi" rows="2" placeholder="Deskripsi Tugas"></textarea>
+                <label for="deskripsi">Deskripsi (Opsional)</label>
+                <textarea id="deskripsi" name="deskripsi" rows="2" maxlength="300" placeholder="Deskripsi Tugas"></textarea>
             </div>
             <button type="submit" class="btn-primary" style="width: 100%; margin-top: 10px;">Simpan</button>
         </form>
@@ -209,7 +209,7 @@
             <input type="hidden" id="edit_task_id" name="task_id">
             <div class="input-group">
                 <label>Nama Tugas</label>
-                <input type="text" id="edit_judul" name="nama_tugas" required>
+                <input type="text" id="edit_judul" name="nama_tugas" maxlength="100" required>
             </div>
             <div class="input-row">
                 <div class="input-group">
@@ -231,7 +231,7 @@
             </div>
             <div class="input-group">
                 <label>Deskripsi</label>
-                <textarea id="edit_deskripsi" name="deskripsi" rows="2"></textarea>
+                <textarea id="edit_deskripsi" name="deskripsi" rows="2" maxlength="300"></textarea>
             </div>
             <button type="submit" class="btn-primary" style="width: 100%; margin-top: 10px;">Update</button>
         </form>

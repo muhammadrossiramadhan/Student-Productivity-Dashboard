@@ -31,17 +31,17 @@
             
             <div class="auth-input-field">
                 <i class="fas fa-user"></i>
-                <input type="text" name="username" placeholder="Username" value="{{ old('username') }}" required autofocus>
+                <input type="text" name="username" maxlength="100" placeholder="Username" value="{{ old('username') }}" required autofocus>
             </div>
 
             <div class="auth-input-field">
                 <i class="fas fa-id-badge"></i>
-                <input type="text" name="panggilan" placeholder="Nama Panggilan (Opsional)" value="{{ old('panggilan') }}">
+                <input type="text" name="panggilan" maxlength="100" placeholder="Nama Panggilan (Opsional)" value="{{ old('panggilan') }}">
             </div>
 
             <div class="auth-input-field">
                 <i class="fas fa-lock"></i>
-                <input type="password" name="password" placeholder="Password (Min. 6 Karakter)" required>
+                <input type="password" name="password" maxlength="100" placeholder="Password (Min. 6 Karakter)" required>
             </div>
 
             <button type="submit" class="auth-btn-primary">Sign Up</button>
